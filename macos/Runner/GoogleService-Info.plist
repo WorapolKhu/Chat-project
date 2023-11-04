@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyC8rPfNHDFcqeC9G7KjC81DmugA_52bTGE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>711509633700</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.chatty.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>chat-app-project-54d49</string>
+	<key>STORAGE_BUCKET</key>
+	<string>chat-app-project-54d49.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:711509633700:ios:94ebb457d794dda2ac9431</string>
+</dict>
+</plist>

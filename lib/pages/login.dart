@@ -1,3 +1,4 @@
+import 'package:chatty/pages/register.dart';
 import 'package:flutter/material.dart';
 
 int donothing() {
@@ -5,6 +6,7 @@ int donothing() {
 }
 
 class LoginPage extends StatefulWidget {
+  static String id = 'login';
   const LoginPage({super.key});
 
   @override
@@ -14,20 +16,20 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Login',
               style: TextStyle(fontSize: 40, fontWeight: FontWeight.w100),
             ),
-            SizedBox(
+            const SizedBox(
               height: 150,
             ),
-            Column(
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Username/E-mail/Phone number'),
@@ -36,11 +38,17 @@ class _LoginPageState extends State<LoginPage> {
                 TextField(),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 150,
             ),
-            OutlinedButton(onPressed: donothing, child: Text('Login')),
-            TextButton(onPressed: donothing, child: Text('Forget password'))
+            const OutlinedButton(onPressed: donothing, child: Text('Login')),
+            const TextButton(
+                onPressed: donothing, child: Text('Forget password')),
+            TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, RegisterPage.id);
+                },
+                child: const Text('Don\'t have an account? Register here'))
           ],
         ),
       ),
