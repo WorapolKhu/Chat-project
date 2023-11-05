@@ -1,3 +1,4 @@
+import 'package:chatty/pages/home.dart';
 import 'package:chatty/pages/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class MainApp extends StatelessWidget {
       routes: {
         LoginPage.id: (context) => const LoginPage(),
         RegisterPage.id: (context) => const RegisterPage(),
+        HomePage.id: (context) => const HomePage(),
       },
       theme: ThemeData(fontFamily: 'Poppins'),
       initialRoute: RegisterPage.id,

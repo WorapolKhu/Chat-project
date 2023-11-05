@@ -1,5 +1,4 @@
 import 'package:chatty/pages/login.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -75,9 +74,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       // TODO: show error
                     } else {
                       try {
-                        final newUser =
-                            await _auth.createUserWithEmailAndPassword(
-                                email: email, password: password);
+                        await _auth.createUserWithEmailAndPassword(
+                            email: email, password: password);
                         print('success to register');
                       } catch (e) {
                         //TODO: show error messages
