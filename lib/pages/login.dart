@@ -1,5 +1,7 @@
+import 'package:chatty/pages/home.dart';
 import 'package:chatty/pages/register.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 int donothing() {
   return 1;
@@ -14,6 +16,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _auth = FirebaseAuth.instance;
+  String email = '';
+  String password = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,21 +34,43 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(
               height: 150,
             ),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Username/E-mail/Phone number'),
-                TextField(),
-                Text('Password'),
-                TextField(),
+                const Text('Username/E-mail/Phone number'),
+                TextField(
+                  onChanged: (value) {
+                    email = value;
+                  },
+                ),
+                const Text('Password'),
+                TextField(
+                  onChanged: (value) {
+                    password = value;
+                  },
+                ),
               ],
             ),
             const SizedBox(
               height: 150,
             ),
-            const OutlinedButton(onPressed: donothing, child: Text('Login')),
-            const TextButton(
-                onPressed: donothing, child: Text('Forget password')),
+            OutlinedButton(
+                onPressed: () async {
+                  try {
+                    _auth.signInWithEmailAndPassword(
+                        email: email, password: password);
+                    if (context.mounted) {
+                      print('login success changing page');
+                      Navigator.pushNamed(context, HomePage.id);
+                    }
+                  } catch (e) {
+                    // TODO: show error
+                    print(e);
+                  }
+                },
+                child: Text('Login')),
+            TextButton(
+                onPressed: donothing, child: const Text('Forget password')),
             TextButton(
                 onPressed: () {
                   Navigator.pushNamed(context, RegisterPage.id);
