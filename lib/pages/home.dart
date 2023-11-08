@@ -1,3 +1,4 @@
+import 'package:chatty/pages/chat_list.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -41,7 +42,7 @@ class _HomePageState extends State<HomePage> {
         children: const [
           Text('Page 1 '),
           Text('Page 2'),
-          Text('Page 3'),
+          ChatList(),
           Text('Page 4')
         ],
       )),
