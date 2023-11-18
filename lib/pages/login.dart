@@ -1,5 +1,6 @@
 import 'package:chatty/pages/home.dart';
 import 'package:chatty/pages/register.dart';
+import 'package:chatty/pages/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -75,7 +76,12 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   Navigator.pushNamed(context, RegisterPage.id);
                 },
-                child: const Text('Don\'t have an account? Register here'))
+                child: const Text('Don\'t have an account? Register here')),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, SettingPage.id);
+                  },
+                  child: const Text('Go to setting'))
           ],
         ),
       ),

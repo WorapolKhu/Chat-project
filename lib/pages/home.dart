@@ -1,3 +1,4 @@
+import 'package:chatty/pages/setting.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
           Text('Page 1 '),
           Text('Page 2'),
           Text('Page 3'),
-          Text('Page 4')
+          SettingPage(),
         ],
       )),
     );
