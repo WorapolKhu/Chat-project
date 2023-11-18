@@ -1,5 +1,6 @@
 import 'package:chatty/pages/home.dart';
 import 'package:chatty/pages/register.dart';
+import 'package:chatty/pages/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

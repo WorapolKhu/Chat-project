@@ -1,3 +1,4 @@
+import 'package:chatty/pages/setting.dart';
 import 'package:chatty/pages/chat_list.dart';
 import 'package:flutter/material.dart';
 import 'package:chatty/pages/addfriend.dart';
@@ -43,7 +44,7 @@ class _HomePageState extends State<HomePage> {
           Text('Page 1 '),
           AddFriendPage(),
           ChatList(),
-          Text('Page 4')
+          SettingPage(),
         ],
       )),
     );

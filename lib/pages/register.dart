@@ -1,4 +1,5 @@
 import 'package:chatty/pages/login.dart';
+import 'package:chatty/pages/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -137,11 +138,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Text('Register'),
               ),
               TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, LoginPage.id);
-                },
-                child: Text('Have an account? Login here'),
-              ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, LoginPage.id);
+                  },
+                  child: const Text('Have an account? Login here')),
             ],
           ),
         ),
