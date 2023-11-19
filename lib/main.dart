@@ -24,7 +24,7 @@ class MainApp extends StatelessWidget {
         ChatPage.id: (context) => const ChatPage()
       },
       theme: ThemeData(fontFamily: 'Poppins'),
-      initialRoute: RegisterPage.id,
+      initialRoute: LoginPage.id,
     );
   }
 }

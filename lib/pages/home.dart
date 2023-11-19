@@ -1,6 +1,6 @@
 import 'package:chatty/pages/chat_list.dart';
 import 'package:flutter/material.dart';
-
+import 'package:chatty/pages/addfriend.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
   static String id = 'Home';
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
         },
         children: const [
           Text('Page 1 '),
-          Text('Page 2'),
+          AddFriendPage(),
           ChatList(),
           Text('Page 4')
         ],
