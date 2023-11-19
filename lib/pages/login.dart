@@ -19,64 +19,119 @@ class _LoginPageState extends State<LoginPage> {
   final _auth = FirebaseAuth.instance;
   String email = '';
   String password = '';
+
+  OutlineInputBorder _inputDecoration = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10.0),
+    borderSide: BorderSide(color: Colors.grey),
+  );
+
+  // ปรับความสูงของ TextField ตามที่คุณต้องการ
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'Login',
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.w100),
-            ),
-            const SizedBox(
-              height: 150,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Username/E-mail/Phone number'),
-                TextField(
-                  onChanged: (value) {
-                    email = value;
-                  },
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(25),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 30),
+              const Align(
+                child: Text(
+                  'Login',
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.center,
                 ),
-                const Text('Password'),
-                TextField(
-                  onChanged: (value) {
-                    password = value;
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 150,
-            ),
-            OutlinedButton(
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('E-mail'),
+                  SizedBox(height: 10),
+                  Container(
+                    height: 50,
+                    child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          email = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        enabledBorder: _inputDecoration,
+                        focusedBorder: _inputDecoration,
+                        hintText: 'Enter your email',
+                        prefixIcon: Icon(Icons.email),
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 14.0, horizontal: 18.0),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Text('Password'),
+                  SizedBox(height: 10),
+                  Container(
+                    height: 50,
+                    child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          password = value;
+                        });
+                      },
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        enabledBorder: _inputDecoration,
+                        focusedBorder: _inputDecoration,
+                        hintText: 'Enter your password',
+                        prefixIcon: Icon(Icons.lock),
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 14.0, horizontal: 18.0),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 100,
+              ),
+              ElevatedButton(
                 onPressed: () async {
                   try {
-                    _auth.signInWithEmailAndPassword(
-                        email: email, password: password);
+                    await _auth.signInWithEmailAndPassword(
+                      email: email,
+                      password: password,
+                    );
                     if (context.mounted) {
-                      print('login success changing page');
+                      print('Login success, changing page');
                       Navigator.pushNamed(context, HomePage.id);
                     }
                   } catch (e) {
-                    // TODO: show error
+                    // TODO: Show error
                     print(e);
                   }
                 },
-                child: Text('Login')),
-            TextButton(
-                onPressed: donothing, child: const Text('Forget password')),
-            TextButton(
+                child: Text('Login'),
+              ),
+              TextButton(
+                onPressed: () {
+                  // TODO: Implement forgot password functionality
+                },
+                child: Text('Forgot password'),
+              ),
+              TextButton(
                 onPressed: () {
                   Navigator.pushNamed(context, RegisterPage.id);
                 },
-                child: const Text('Don\'t have an account? Register here'))
-          ],
+                child: Text("Sign up"),
+              ),
+            ],
+          ),
         ),
       ),
     );

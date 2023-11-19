@@ -22,7 +22,7 @@ class MainApp extends StatelessWidget {
         HomePage.id: (context) => const HomePage(),
       },
       theme: ThemeData(fontFamily: 'Poppins'),
-      initialRoute: RegisterPage.id,
+      initialRoute: LoginPage.id,
     );
   }
 }
