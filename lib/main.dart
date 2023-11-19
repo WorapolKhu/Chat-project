@@ -1,6 +1,7 @@
 import 'package:chatty/pages/chat.dart';
 import 'package:chatty/pages/home.dart';
 import 'package:chatty/pages/login.dart';
+import 'package:chatty/pages/myProfile.dart';
 import 'package:chatty/pages/setting.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,8 @@ class MainApp extends StatelessWidget {
         RegisterPage.id: (context) => const RegisterPage(),
         HomePage.id: (context) => const HomePage(),
         SettingPage.id: (context) => const SettingPage(),
-        ChatPage.id: (context) => const ChatPage()
+        ChatPage.id: (context) => const ChatPage(),
+        MyProfilePage.id: (context) => const MyProfilePage(),
       },
       theme: ThemeData(fontFamily: 'Poppins'),
       initialRoute: LoginPage.id,
