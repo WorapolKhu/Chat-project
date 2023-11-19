@@ -24,65 +24,62 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'Login',
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.w100),
-            ),
-            const SizedBox(
-              height: 150,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Username/E-mail/Phone number'),
-                TextField(
-                  onChanged: (value) {
-                    email = value;
-                  },
-                ),
-                const Text('Password'),
-                TextField(
-                  onChanged: (value) {
-                    password = value;
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 150,
-            ),
-            OutlinedButton(
-                onPressed: () async {
-                  try {
-                    _auth.signInWithEmailAndPassword(
-                        email: email, password: password);
-                    if (context.mounted) {
-                      print('login success changing page');
-                      Navigator.pushNamed(context, HomePage.id);
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                'Login',
+                style: TextStyle(fontSize: 40, fontWeight: FontWeight.w100),
+              ),
+              const SizedBox(
+                height: 150,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Username/E-mail/Phone number'),
+                  TextField(
+                    onChanged: (value) {
+                      email = value;
+                    },
+                  ),
+                  const Text('Password'),
+                  TextField(
+                    onChanged: (value) {
+                      password = value;
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 150,
+              ),
+              OutlinedButton(
+                  onPressed: () async {
+                    try {
+                      _auth.signInWithEmailAndPassword(
+                          email: email, password: password);
+                      if (context.mounted) {
+                        print('login success changing page');
+                        Navigator.pushNamed(context, HomePage.id);
+                      }
+                    } catch (e) {
+                      // TODO: show error
+                      print(e);
                     }
-                  } catch (e) {
-                    // TODO: show error
-                    print(e);
-                  }
-                },
-                child: Text('Login')),
-            TextButton(
-                onPressed: donothing, child: const Text('Forget password')),
-            TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, RegisterPage.id);
-                },
-                child: const Text('Don\'t have an account? Register here')),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, SettingPage.id);
                   },
-                  child: const Text('Go to setting'))
-          ],
+                  child: Text('Login')),
+              TextButton(
+                  onPressed: donothing, child: const Text('Forget password')),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, RegisterPage.id);
+                  },
+                  child: const Text('Don\'t have an account? Register here'))
+            ],
+          ),
         ),
       ),
     );

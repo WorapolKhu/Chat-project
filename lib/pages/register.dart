@@ -77,6 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       try {
                         await _auth.createUserWithEmailAndPassword(
                             email: email, password: password);
+                            
                         print('success to register');
                       } catch (e) {
                         //TODO: show error messages
