@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:chatty/pages/setting.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class MyProfilePage extends StatefulWidget {
@@ -18,53 +17,76 @@ class _MyProfilePageState extends State<MyProfilePage> {
     _auth.authStateChanges().listen((User? user) {
       if (user != null) {
         final uid = user.uid;
-        final displayName = user.displayName;
-        final email = user.email;
-        final phoneNumber = user.phoneNumber;
+        final displayName = user.displayName ?? 'Null';
+        final email = user.email ?? 'Null';
+        final picture = user.photoURL ?? '';
 
         userData = {
           'uid': uid,
           'displayName': displayName,
           'email': email,
-          'phoneNumber': phoneNumber,
+          'picture': picture,
         };
 
-        setState(() => {});
+        setState(() {});
       }
     });
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     getCurrentUser();
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    var bgColor = Colors.white;
     return Scaffold(
+      backgroundColor: bgColor,
       appBar: AppBar(
-        title: const Text('Profile'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            // Navigator.pushNamed(context, SettingPage.id);
-          },
+        title: const Center(
+          child: Text(
+            "Profile",
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
         ),
+        backgroundColor: const Color(0xff4BA7FB),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Username: ${userData['displayName']}',
-              style: const TextStyle(fontSize: 18),
+            CircleAvatar(
+              radius: 50,
+              backgroundImage:
+                  NetworkImage(userData['picture'] ?? const Color(0xffdeebff)),
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Email: ${userData['email']}',
-              style: const TextStyle(fontSize: 18),
+            const SizedBox(height: 30),
+            const Text(
+              'Username',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 10),
             Text(
-              'Phone Number: ${userData['phoneNumber']}',
-              style: const TextStyle(fontSize: 18),
+              '${userData['displayName']}',
+              style: const TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            const SizedBox(height: 30),
+            const Text(
+              'Email',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              '${userData['email']}',
+              style: const TextStyle(
+                fontSize: 18,
+              ),
             ),
           ],
         ),
