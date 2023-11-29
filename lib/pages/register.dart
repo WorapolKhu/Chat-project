@@ -1,7 +1,7 @@
 import 'package:chatty/pages/login.dart';
-import 'package:chatty/pages/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 int donothing() {
   return 1;
@@ -20,6 +20,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String email = '';
   String password = '';
   String confirmPassword = '';
+  String username = '';
 
   OutlineInputBorder _inputDecoration = OutlineInputBorder(
     borderRadius: BorderRadius.circular(10.0),
@@ -50,6 +51,29 @@ class _RegisterPageState extends State<RegisterPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 20),
+                  Text('Username'),
+                  SizedBox(height: 10),
+                  Container(
+                    height: 45,
+                    child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          username = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        enabledBorder: _inputDecoration,
+                        focusedBorder: _inputDecoration,
+                        hintText: 'Enter your username',
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 14.0,
+                          horizontal: 18.0,
+                        ),
+                      ),
+                    ),
+                  ),
                   Text('Email'),
                   SizedBox(height: 10),
                   Container(
@@ -127,8 +151,15 @@ class _RegisterPageState extends State<RegisterPage> {
                   } else {
                     try {
                       await _auth.createUserWithEmailAndPassword(
-                          email: email, password: password);
+                        email: email,
+                        password: password,
+                      );
+                      await FirebaseFirestore.instance.collection('users').add({
+                        'name': username,
+                        'email': email,
+                      });
                       print('success to register');
+                      Navigator.pushNamed(context, LoginPage.id);
                     } catch (e) {
                       //TODO: show error messages
                       print(e);

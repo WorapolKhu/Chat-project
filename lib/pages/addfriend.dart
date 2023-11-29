@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AddFriendPage extends StatefulWidget {
   const AddFriendPage({Key? key}) : super(key: key);
@@ -23,9 +24,28 @@ class _AddFriendState extends State<AddFriendPage> {
       return {
         'name': doc['name'].toString(),
         'email': doc['email'].toString(),
-        'profileImage': doc['profileImage']?.toString() ?? '',
       };
     }).toList();
+  }
+
+  final _store = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
+  User? loggedInUser;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  Future<void> getCurrentUser() async {
+    _auth.authStateChanges().listen((User? user) {
+      if (user != null) {
+        setState(() {
+          loggedInUser = user;
+        });
+      }
+    });
   }
 
   @override
@@ -91,11 +111,47 @@ class _AddFriendState extends State<AddFriendPage> {
                 const SizedBox(height: 20),
                 for (Map<String, String> result in filteredResults)
                   ListTile(
-                    leading: CircleAvatar(),
-                    title: Text(result["name"]!),
-                    subtitle: Text(result["email"]!),
-                    trailing: Icon(Icons.person_add, size: 28),
-                  ),
+                      leading: CircleAvatar(),
+                      title: Text(result["name"]!),
+                      subtitle: Text(result["email"]!),
+                      trailing: IconButton(
+                          icon: Icon(Icons.person_add, size: 28),
+                          onPressed: () async {
+                            String? email =
+                                FirebaseAuth.instance.currentUser?.email;
+                            QuerySnapshot querySnapshotUser = await _store
+                                .collection('users')
+                                .where('email', isEqualTo: email)
+                                .limit(1)
+                                .get();
+
+                            QuerySnapshot querySnapshot = await _store
+                                .collection('users')
+                                .where('email', isEqualTo: result["email"]!)
+                                .limit(1)
+                                .get();
+
+                            if (querySnapshot.docs.isNotEmpty) {
+                              String friendDocId = querySnapshot.docs.first.id;
+                              String userDocId =
+                                  querySnapshotUser.docs.first.id;
+
+                              CollectionReference friendsCollection = _store
+                                  .collection('users')
+                                  .doc(userDocId)
+                                  .collection('friends');
+
+                              var existingFriend = await friendsCollection
+                                  .doc(friendDocId)
+                                  .get();
+
+                              if (!existingFriend.exists) {
+                                await friendsCollection.add({
+                                  'DocIdUser': friendDocId,
+                                });
+                              }
+                            }
+                          })),
               ],
             ),
           ),
