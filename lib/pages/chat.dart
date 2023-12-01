@@ -43,39 +43,43 @@ class _ChatPageState extends State<ChatPage> {
     }
 
     return Scaffold(
+        appBar: AppBar(
+          title: Center(child: Text(loggedInUser.displayName as String)),
+          automaticallyImplyLeading: false,
+        ),
         body: SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const MessagesStream(),
-          Row(children: [
-            Expanded(
-              child: TextField(
-                controller: fieldController,
-                onChanged: (value) {
-                  textMessage = value;
-                },
-              ),
-            ),
-            TextButton(
-                onPressed: () {
-                  _store
-                      .collection('chatList')
-                      .doc(refId)
-                      .collection('message')
-                      .add({
-                    'sender': loggedInUser.email,
-                    'text': textMessage,
-                    'created_at': DateTime.now().millisecondsSinceEpoch
-                  });
-                  fieldController.clear();
-                },
-                child: const Text('Send')),
-          ]),
-        ],
-      ),
-    ));
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const MessagesStream(),
+              Row(children: [
+                Expanded(
+                  child: TextField(
+                    controller: fieldController,
+                    onChanged: (value) {
+                      textMessage = value;
+                    },
+                  ),
+                ),
+                TextButton(
+                    onPressed: () {
+                      _store
+                          .collection('chatList')
+                          .doc(refId)
+                          .collection('message')
+                          .add({
+                        'sender': loggedInUser.email,
+                        'text': textMessage,
+                        'created_at': DateTime.now().millisecondsSinceEpoch
+                      });
+                      fieldController.clear();
+                    },
+                    child: const Text('Send')),
+              ]),
+            ],
+          ),
+        ));
   }
 }
 

@@ -52,7 +52,7 @@ class _ChatListState extends State<ChatList> {
               future: getCurrentUser(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState != ConnectionState.done) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
                 return StreamBuilder(
                     stream: _store
@@ -88,9 +88,9 @@ class _ChatListState extends State<ChatList> {
                                     snapshot.data!.docs.isEmpty) {
                                   return ListTile(
                                     title: Text(otherUserEmail),
-                                    subtitle: Text('Start chat now!'),
+                                    subtitle: const Text('Start chat now!'),
                                     onTap: () {
-                                      print(otherUserEmail);
+                                      
                                       Navigator.pushNamed(context, ChatPage.id,
                                           arguments: chatRoom.reference);
                                     },
