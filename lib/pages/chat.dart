@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 final _store = FirebaseFirestore.instance;
 late User loggedInUser;
+late var refId;
 
 class ChatPage extends StatefulWidget {
   static String id = 'chat';
@@ -15,13 +16,14 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final _auth = FirebaseAuth.instance;
+  final fieldController = TextEditingController();
   late String textMessage;
+
   @override
   void initState() {
     super.initState();
 
     getCurrentUser();
-    getStream();
   }
 
   void getCurrentUser() async {
@@ -32,48 +34,52 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
-  void getStream() async {
-    await for (var snapshot in _store
-        .collection('message')
-        .orderBy('created_at', descending: false)
-        .snapshots()) {
-      for (var message in snapshot.docs) {
-        print(message.data()['text']);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    var route = ModalRoute.of(context);
+    if (route != null && route.settings.arguments != null) {
+      refId = route.settings.arguments;
+      refId = refId.id;
+    }
+
     return Scaffold(
+        appBar: AppBar(
+          title: Center(child: Text(loggedInUser.displayName as String)),
+          automaticallyImplyLeading: false,
+        ),
         body: SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const MessagesStream(),
-          Row(children: [
-            Expanded(
-              child: TextField(
-                onChanged: (value) {
-                  textMessage = value;
-                },
-              ),
-            ),
-            TextButton(
-                onPressed: () {
-                  getCurrentUser();
-                  _store.collection('message').add({
-                    'sender': loggedInUser.email,
-                    'text': textMessage,
-                    'created_at': DateTime.now().millisecondsSinceEpoch
-                  });
-                },
-                child: const Text('Send')),
-          ]),
-        ],
-      ),
-    ));
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const MessagesStream(),
+              Row(children: [
+                Expanded(
+                  child: TextField(
+                    controller: fieldController,
+                    onChanged: (value) {
+                      textMessage = value;
+                    },
+                  ),
+                ),
+                TextButton(
+                    onPressed: () {
+                      _store
+                          .collection('chatList')
+                          .doc(refId)
+                          .collection('message')
+                          .add({
+                        'sender': loggedInUser.email,
+                        'text': textMessage,
+                        'created_at': DateTime.now().millisecondsSinceEpoch
+                      });
+                      fieldController.clear();
+                    },
+                    child: const Text('Send')),
+              ]),
+            ],
+          ),
+        ));
   }
 }
 
@@ -83,14 +89,32 @@ class MessagesStream extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: _store
+          .collection('chatList')
+          .doc(refId)
           .collection('message')
-          .orderBy('created_at', descending: false)
+          .orderBy('created_at', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) return Text('Error = ${snapshot.error}');
+        if (snapshot.data == null || snapshot.data!.size == 0) {
+          return const Column(
+            children: [
+              Text(
+                'Let\'s start a new conversation.',
+                style: TextStyle(fontSize: 20),
+              ),
+              Icon(
+                Icons.send_outlined,
+                size: 100,
+                color: Color(0x2f000000),
+              )
+            ],
+          );
+        }
         if (snapshot.hasData) {
           return Expanded(
             child: ListView(
+              reverse: true,
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
                 Map<String, dynamic> data =
                     document.data()! as Map<String, dynamic>;
@@ -130,26 +154,27 @@ class MessageBubble extends StatelessWidget {
         children: <Widget>[
           Text(
             sender,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12.0,
               color: Colors.black54,
             ),
           ),
           Material(
             borderRadius: isMe
-                ? BorderRadius.only(
+                ? const BorderRadius.only(
                     topLeft: Radius.circular(30.0),
                     bottomLeft: Radius.circular(30.0),
                     bottomRight: Radius.circular(30.0))
-                : BorderRadius.only(
+                : const BorderRadius.only(
                     bottomLeft: Radius.circular(30.0),
                     bottomRight: Radius.circular(30.0),
                     topRight: Radius.circular(30.0),
                   ),
             elevation: 5.0,
-            color: isMe ? Colors.green : Colors.white,
+            color: isMe ? Colors.pinkAccent : Colors.white,
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
               child: Text(
                 text,
                 style: TextStyle(
