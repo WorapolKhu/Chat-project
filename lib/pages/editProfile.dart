@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({super.key});
+  const EditProfilePage({Key? key}) : super(key: key);
   static String id = 'EditProfile';
 
   @override
@@ -11,7 +12,11 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  Map<String, dynamic> userData = {};
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  late User _user;
+  late DocumentReference _userDoc;
+  late Map<String, dynamic> userData = {}; // Initialize userData here
 
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -25,20 +30,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
   void getCurrentUser() async {
     _auth.authStateChanges().listen((User? user) {
       if (user != null) {
-        final uid = user.uid;
-        final displayName = user.displayName ?? 'N/A';
-        final email = user.email ?? 'N/A';
-        final picture = user.photoURL ?? '';
+        _user = user;
+        _userDoc = _firestore.collection('users').doc(_user.uid);
 
-        userData = {
-          'uid': uid,
-          'displayName': displayName,
-          'email': email,
-          'picture': picture,
-        };
-
-        fullNameController.text = userData['displayName'];
-        emailController.text = userData['email'];
+        _userDoc.get().then((DocumentSnapshot documentSnapshot) {
+          if (documentSnapshot.exists) {
+            // Populate data from Firestore
+            userData = documentSnapshot.data() as Map<String, dynamic>;
+            fullNameController.text = userData['displayName'];
+            emailController.text = userData['email'];
+          }
+        });
 
         setState(() {});
       }
@@ -47,21 +49,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   void saveChanges() async {
     try {
-      User? user = _auth.currentUser;
+      // Update user data in Firestore
+      await _userDoc.set({
+        'uid': _user.uid,
+        'displayName': fullNameController.text,
+        'email': emailController.text,
+      });
 
-      if (user != null) {
-        // Update the user's display name and email
-        await user.updateDisplayName(fullNameController.text);
-        await user.updateEmail(emailController.text);
-        // Reload the user to get the updated information
-        await user.reload();
-        user = _auth.currentUser;
-        // Update the local userData with the latest information
-        userData['displayName'] = user!.displayName ?? '';
-        userData['email'] = user.email;
-        // Print a message or perform any other post-save actions
-        print("Changes saved successfully");
-      }
+      // Update the local user data
+      setState(() {
+        userData['displayName'] = fullNameController.text;
+        userData['email'] = emailController.text;
+      });
+
+      // Print a message or perform any other post-save actions
+      print("Changes saved successfully");
     } catch (e) {
       // Handle errors, e.g., display an error message
       print("Error saving changes: $e");
@@ -110,40 +112,26 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           )
                         ],
                         shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                            userData['picture'] ?? '',
-                          ),
-                        ),
                       ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              width: 4,
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                            ),
-                            color: Colors.blue),
-                        child: Icon(
-                          Icons.edit,
-                          color: Colors.white,
-                        ),
+                      // Use CircleAvatar with an icon instead of Image.asset
+                      child: CircleAvatar(
+                        backgroundColor:
+                            Colors.transparent, // Set background color
+                        child: Icon(Icons.person_outline,
+                            color: Colors.black12,
+                            size: 100), // Icon and its color
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: 35,
-              ),
+              SizedBox(height: 35),
+              Text("Username",
+                  style: TextStyle(fontWeight: FontWeight.w300)),
               buildTextField("Full Name", fullNameController, false),
+              SizedBox(height: 15),
+              Text("Email",
+                  style: TextStyle(fontWeight: FontWeight.w300)),
               buildTextField("E-mail", emailController, false),
               SizedBox(height: 35),
               Row(
@@ -168,7 +156,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                   ),
                   // Button to save changes
-                  FilledButton(
+                  ElevatedButton(
                     onPressed: () {
                       // save the changes to Firebase
                       saveChanges();
