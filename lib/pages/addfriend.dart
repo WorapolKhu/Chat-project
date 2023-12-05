@@ -185,7 +185,6 @@ class _AddFriendState extends State<AddFriendPage> {
                               ];
                               collectionReference.add({
                                 'users': userArray,
-                                // Add other fields as needed
                               });
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
