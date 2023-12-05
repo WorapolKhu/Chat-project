@@ -3,8 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 final _store = FirebaseFirestore.instance;
-late User loggedInUser;
+User? loggedInUser;
 late var refId;
+String? otherUser;
+String? otherUserName;
 
 class ChatPage extends StatefulWidget {
   static String id = 'chat';
@@ -19,19 +21,27 @@ class _ChatPageState extends State<ChatPage> {
   final fieldController = TextEditingController();
   late String textMessage;
 
-  @override
-  void initState() {
-    super.initState();
-
-    getCurrentUser();
-  }
-
-  void getCurrentUser() async {
-    _auth.authStateChanges().listen((User? user) {
-      if (user != null) {
-        loggedInUser = user;
-      }
+  Future<void> getCurrentUser() async {
+    loggedInUser = await _auth.authStateChanges().first;
+    await _store.collection('chatList').doc(refId).get().then((value) {
+      final usersInChat = value.data() as Map<String, dynamic>;
+      usersInChat.forEach((key, value) {
+        if (value is List) {
+          for (var user in value) {
+            if (user != loggedInUser?.email) {
+              otherUser = user;
+            }
+          }
+        }
+      });
     });
+    QuerySnapshot otherUserInfo = await _store
+        .collection('users')
+        .where('email', isEqualTo: otherUser)
+        .get();
+    Map<String, dynamic> otherUserInfoData =
+        otherUserInfo.docs[0].data() as Map<String, dynamic>;
+    otherUserName = otherUserInfoData['name'];
   }
 
   @override
@@ -41,12 +51,23 @@ class _ChatPageState extends State<ChatPage> {
       refId = route.settings.arguments;
       refId = refId.id;
     }
-
     return Scaffold(
         appBar: AppBar(
-          title: Center(child: Text(loggedInUser.displayName as String)),
-          automaticallyImplyLeading: false,
-        ),
+            automaticallyImplyLeading: false,
+            title: Center(
+              child: FutureBuilder(
+                  future: getCurrentUser(),
+                  builder: (BuildContext context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    }
+
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    }
+                    return Text(otherUserName ?? '');
+                  }),
+            )),
         body: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,7 +90,7 @@ class _ChatPageState extends State<ChatPage> {
                           .doc(refId)
                           .collection('message')
                           .add({
-                        'sender': loggedInUser.email,
+                        'sender': loggedInUser?.email,
                         'text': textMessage,
                         'created_at': DateTime.now().millisecondsSinceEpoch
                       });
@@ -121,7 +142,7 @@ class MessagesStream extends StatelessWidget {
                 return MessageBubble(
                     sender: data['sender'],
                     text: data['text'],
-                    isMe: loggedInUser.email == data['sender']);
+                    isMe: loggedInUser?.email == data['sender']);
               }).toList(),
             ),
           );
@@ -152,13 +173,15 @@ class MessageBubble extends StatelessWidget {
         crossAxisAlignment:
             isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            sender,
-            style: const TextStyle(
-              fontSize: 12.0,
-              color: Colors.black54,
-            ),
-          ),
+          isMe
+              ? SizedBox()
+              : Text(
+                  otherUserName ?? '',
+                  style: const TextStyle(
+                    fontSize: 12.0,
+                    color: Colors.black54,
+                  ),
+                ),
           Material(
             borderRadius: isMe
                 ? const BorderRadius.only(
