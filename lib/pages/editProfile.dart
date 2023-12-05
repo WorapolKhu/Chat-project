@@ -25,51 +25,64 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   void getCurrentUser() async {
-    final user = _auth.currentUser;
-    if (user != null) {
-      // Retrieve user data from Firestore
-      DocumentSnapshot userSnapshot =
-          await _store.collection('users').doc(user.uid).get();
+  final user = _auth.currentUser;
+  if (user != null) {
+    // Retrieve user data from Firestore based on email
+    QuerySnapshot userSnapshot = await _store
+        .collection('users')
+        .where('email', isEqualTo: user.email)
+        .get();
 
-      if (userSnapshot.exists) {
-        // Extract user information from the Firestore document
-        Map<String, dynamic> userData =
-            userSnapshot.data() as Map<String, dynamic>;
+    if (userSnapshot.docs.isNotEmpty) {
+      // Assuming email is unique, use the first document
+      Map<String, dynamic> userData =
+          userSnapshot.docs.first.data() as Map<String, dynamic>;
 
-        setState(() {
-          loggedInUser = user;
-          _usernameController.text = userData['name'] ?? 'NA';
-          _emailController.text = userData['email'] ?? 'NA';
+      setState(() {
+        loggedInUser = user;
+        _usernameController.text = userData['name'] ?? 'NA';
+        _emailController.text = userData['email'] ?? 'NA';
+      });
+    }
+  }
+}
+
+void updateProfile() async {
+  try {
+    // Update display name in authentication
+    await loggedInUser.updateDisplayName(_usernameController.text);
+
+    // Update user information in Firestore based on email
+    await _store
+        .collection('users')
+        .where('email', isEqualTo: loggedInUser.email)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      if (querySnapshot.docs.isNotEmpty) {
+        var docId = querySnapshot.docs.first.id;
+        _store.collection('users').doc(docId).update({
+          'name': _usernameController.text,
+          'email': _emailController.text,
         });
       }
-    }
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Profile updated successfully!'),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  } catch (e) {
+    print(e.toString());
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Failed to update profile. Please try again.'),
+        duration: Duration(seconds: 2),
+      ),
+    );
   }
-
-  void updateProfile() async {
-    try {
-      await loggedInUser.updateDisplayName(_usernameController.text);
-
-      await _store.collection('users').doc(loggedInUser.uid).update({
-        'name': _usernameController.text,
-        'email': _emailController.text,
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Profile updated successfully!'),
-          duration: Duration(seconds: 2),
-        ),
-      );
-    } catch (e) {
-      print(e.toString());
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to update profile. Please try again.'),
-          duration: Duration(seconds: 2),
-        ),
-      );
-    }
-  }
+}
 
   @override
   Widget build(BuildContext context) {
