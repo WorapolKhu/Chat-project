@@ -173,6 +173,20 @@ class _AddFriendState extends State<AddFriendPage> {
                                   ),
                                 ),
                               );
+                              //TODO: add chat room
+                              String currentUser = email ?? '';
+                              String otherUser = result['email'] ?? '';
+                              CollectionReference collectionReference =
+                                  FirebaseFirestore.instance
+                                      .collection('chatList');
+                              List<String> userArray = [
+                                currentUser,
+                                otherUser,
+                              ];
+                              collectionReference.add({
+                                'users': userArray,
+                                // Add other fields as needed
+                              });
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
