@@ -15,17 +15,21 @@ class _ChatListState extends State<ChatList> {
   final _auth = FirebaseAuth.instance;
   User? loggedInUser;
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   Future<void> getCurrentUser() async {
     _auth.authStateChanges().listen((User? user) {
       if (user != null) {
         loggedInUser = user;
       }
     });
+  }
+
+  Future<String> getDisplayName(String email) async {
+    var tmp =
+        await _store.collection('users').where('email', isEqualTo: email).get();
+    Map<String, dynamic> otherUserInfoData =
+        tmp.docs[0].data() as Map<String, dynamic>;
+
+    return await otherUserInfoData['name'];
   }
 
   @override
@@ -87,7 +91,15 @@ class _ChatListState extends State<ChatList> {
                                 if (!snapshot.hasData ||
                                     snapshot.data!.docs.isEmpty) {
                                   return ListTile(
-                                    title: Text(otherUserEmail),
+                                    title: FutureBuilder(
+                                        future: getDisplayName(otherUserEmail),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return Text('');
+                                          }
+                                          return Text(snapshot.data ?? '');
+                                        }),
                                     subtitle: const Text('Start chat now!'),
                                     onTap: () {
                                       Navigator.pushNamed(context, ChatPage.id,
@@ -98,7 +110,15 @@ class _ChatListState extends State<ChatList> {
                                 var latestMessage = snapshot.data!.docs.first;
                                 var messageData = latestMessage.data();
                                 return ListTile(
-                                  title: Text(otherUserEmail),
+                                  title: FutureBuilder(
+                                      future: getDisplayName(otherUserEmail),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Text('');
+                                        }
+                                        return Text(snapshot.data ?? '');
+                                      }),
                                   subtitle: Text(messageData['text']),
                                   onTap: () {
                                     Navigator.pushNamed(context, ChatPage.id,
