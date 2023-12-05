@@ -90,7 +90,6 @@ class _ChatListState extends State<ChatList> {
                                     title: Text(otherUserEmail),
                                     subtitle: const Text('Start chat now!'),
                                     onTap: () {
-                                      
                                       Navigator.pushNamed(context, ChatPage.id,
                                           arguments: chatRoom.reference);
                                     },
@@ -111,11 +110,6 @@ class _ChatListState extends State<ChatList> {
                       );
                     });
               }),
-          TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, ChatPage.id);
-              },
-              child: const Text('To chat page'))
         ],
       )),
     );

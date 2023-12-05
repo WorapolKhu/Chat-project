@@ -42,6 +42,7 @@ class _ChatPageState extends State<ChatPage> {
     Map<String, dynamic> otherUserInfoData =
         otherUserInfo.docs[0].data() as Map<String, dynamic>;
     otherUserName = otherUserInfoData['name'];
+    return;
   }
 
   @override
@@ -59,7 +60,7 @@ class _ChatPageState extends State<ChatPage> {
                   future: getCurrentUser(),
                   builder: (BuildContext context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
+                      return CircularProgressIndicator(color: Colors.white);
                     }
 
                     if (snapshot.hasError) {
@@ -155,7 +156,7 @@ class MessagesStream extends StatelessWidget {
   }
 }
 
-class MessageBubble extends StatelessWidget {
+class MessageBubble extends StatefulWidget {
   const MessageBubble(
       {super.key,
       required this.sender,
@@ -166,24 +167,20 @@ class MessageBubble extends StatelessWidget {
   final bool isMe;
 
   @override
+  State<MessageBubble> createState() => _MessageBubbleState();
+}
+
+class _MessageBubbleState extends State<MessageBubble> {
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
         crossAxisAlignment:
-            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            widget.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
-          isMe
-              ? SizedBox()
-              : Text(
-                  otherUserName ?? '',
-                  style: const TextStyle(
-                    fontSize: 12.0,
-                    color: Colors.black54,
-                  ),
-                ),
           Material(
-            borderRadius: isMe
+            borderRadius: widget.isMe
                 ? const BorderRadius.only(
                     topLeft: Radius.circular(30.0),
                     bottomLeft: Radius.circular(30.0),
@@ -194,14 +191,14 @@ class MessageBubble extends StatelessWidget {
                     topRight: Radius.circular(30.0),
                   ),
             elevation: 5.0,
-            color: isMe ? Colors.pinkAccent : Colors.white,
+            color: widget.isMe ? Colors.pinkAccent : Colors.white,
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
               child: Text(
-                text,
+                widget.text,
                 style: TextStyle(
-                  color: isMe ? Colors.white : Colors.black54,
+                  color: widget.isMe ? Colors.white : Colors.black54,
                   fontSize: 15.0,
                 ),
               ),
