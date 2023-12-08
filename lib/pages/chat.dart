@@ -54,22 +54,19 @@ class _ChatPageState extends State<ChatPage> {
     }
     return Scaffold(
         appBar: AppBar(
-            automaticallyImplyLeading: true,
             centerTitle: true,
-            title: Center(
-              child: FutureBuilder(
-                  future: getCurrentUser(),
-                  builder: (BuildContext context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator(color: Colors.white);
-                    }
+            title: FutureBuilder(
+                future: getCurrentUser(),
+                builder: (BuildContext context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator(color: Colors.white);
+                  }
 
-                    if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    }
-                    return Text(otherUserName ?? '');
-                  }),
-            )),
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+                  return Text(otherUserName ?? '');
+                })),
         body: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

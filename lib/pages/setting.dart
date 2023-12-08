@@ -1,6 +1,7 @@
 import 'package:chatty/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:chatty/pages/editProfile.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -54,6 +55,12 @@ class _SettingPageState extends State<SettingPage> {
           leading: CircleAvatar(radius: 30, backgroundColor: avatar_color),
           title: Text("Profile"),
           trailing: arrow_icon,
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              EditProfilePage.id,
+            );
+          },
         ),
         Divider(
           thickness: 1.5,
