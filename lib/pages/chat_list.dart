@@ -36,8 +36,16 @@ class _ChatListState extends State<ChatList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Container(
+          padding: EdgeInsets.only(top: 40),
+          alignment: Alignment.center,
+          child: Text(
+            'Chat',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w400),
+          ),
+        ),
+        toolbarHeight: 90,
         automaticallyImplyLeading: false,
-        title: const Center(child: Text('Chat')),
       ),
       body: SafeArea(
           child: Column(
@@ -76,7 +84,6 @@ class _ChatListState extends State<ChatList> {
                         itemBuilder: (context, index) {
                           var chatRoom = chatRooms[index];
                           var users = chatRoom['users'] as List<dynamic>;
-
 
                           var otherUserEmail = users.firstWhere(
                               (email) => email != loggedInUser?.email);
