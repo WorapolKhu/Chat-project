@@ -155,6 +155,16 @@ class _AddFriendState extends State<AddFriendPage> {
                               await friendsCollection.add({
                                 'DocIdUser': friendDocId,
                               });
+                              CollectionReference friendFriendsCollection =
+                                  _store
+                                      .collection('users')
+                                      .doc(friendDocId)
+                                      .collection('friends');
+
+                              var myDocId = querySnapshotUser.docs.first.id;
+                              await friendFriendsCollection.add({
+                                'DocIdUser': myDocId,
+                              });
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
