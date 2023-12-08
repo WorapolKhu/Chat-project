@@ -54,7 +54,8 @@ class _ChatPageState extends State<ChatPage> {
     }
     return Scaffold(
         appBar: AppBar(
-            automaticallyImplyLeading: false,
+            automaticallyImplyLeading: true,
+            centerTitle: true,
             title: Center(
               child: FutureBuilder(
                   future: getCurrentUser(),
@@ -86,16 +87,19 @@ class _ChatPageState extends State<ChatPage> {
                 ),
                 TextButton(
                     onPressed: () {
-                      _store
-                          .collection('chatList')
-                          .doc(refId)
-                          .collection('message')
-                          .add({
-                        'sender': loggedInUser?.email,
-                        'text': textMessage,
-                        'created_at': DateTime.now().millisecondsSinceEpoch
-                      });
-                      fieldController.clear();
+                      if (textMessage.isNotEmpty) {
+                        _store
+                            .collection('chatList')
+                            .doc(refId)
+                            .collection('message')
+                            .add({
+                          'sender': loggedInUser?.email,
+                          'text': textMessage,
+                          'created_at': DateTime.now().millisecondsSinceEpoch
+                        });
+                        fieldController.clear();
+                        textMessage = '';
+                      }
                     },
                     child: const Text('Send')),
               ]),
