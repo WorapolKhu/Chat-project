@@ -15,11 +15,6 @@ class _ChatListState extends State<ChatList> {
   final _auth = FirebaseAuth.instance;
   User? loggedInUser;
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   Future<void> getCurrentUser() async {
     _auth.authStateChanges().listen((User? user) {
       if (user != null) {
@@ -28,12 +23,29 @@ class _ChatListState extends State<ChatList> {
     });
   }
 
+  Future<String> getDisplayName(String email) async {
+    var tmp =
+        await _store.collection('users').where('email', isEqualTo: email).get();
+    Map<String, dynamic> otherUserInfoData =
+        tmp.docs[0].data() as Map<String, dynamic>;
+
+    return await otherUserInfoData['name'];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Container(
+          padding: EdgeInsets.only(top: 40),
+          alignment: Alignment.center,
+          child: Text(
+            'Chat',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w400),
+          ),
+        ),
+        toolbarHeight: 90,
         automaticallyImplyLeading: false,
-        title: const Center(child: Text('Chat')),
       ),
       body: SafeArea(
           child: Column(
@@ -73,8 +85,6 @@ class _ChatListState extends State<ChatList> {
                           var chatRoom = chatRooms[index];
                           var users = chatRoom['users'] as List<dynamic>;
 
-                          // Find the other user in the chat room
-                          //TODO: change to Username
                           var otherUserEmail = users.firstWhere(
                               (email) => email != loggedInUser?.email);
                           return StreamBuilder(
@@ -87,10 +97,17 @@ class _ChatListState extends State<ChatList> {
                                 if (!snapshot.hasData ||
                                     snapshot.data!.docs.isEmpty) {
                                   return ListTile(
-                                    title: Text(otherUserEmail),
+                                    title: FutureBuilder(
+                                        future: getDisplayName(otherUserEmail),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return Text('');
+                                          }
+                                          return Text(snapshot.data ?? '');
+                                        }),
                                     subtitle: const Text('Start chat now!'),
                                     onTap: () {
-                                      
                                       Navigator.pushNamed(context, ChatPage.id,
                                           arguments: chatRoom.reference);
                                     },
@@ -99,7 +116,15 @@ class _ChatListState extends State<ChatList> {
                                 var latestMessage = snapshot.data!.docs.first;
                                 var messageData = latestMessage.data();
                                 return ListTile(
-                                  title: Text(otherUserEmail),
+                                  title: FutureBuilder(
+                                      future: getDisplayName(otherUserEmail),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Text('');
+                                        }
+                                        return Text(snapshot.data ?? '');
+                                      }),
                                   subtitle: Text(messageData['text']),
                                   onTap: () {
                                     Navigator.pushNamed(context, ChatPage.id,
@@ -111,11 +136,6 @@ class _ChatListState extends State<ChatList> {
                       );
                     });
               }),
-          TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, ChatPage.id);
-              },
-              child: const Text('To chat page'))
         ],
       )),
     );

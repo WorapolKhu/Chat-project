@@ -155,6 +155,16 @@ class _AddFriendState extends State<AddFriendPage> {
                               await friendsCollection.add({
                                 'DocIdUser': friendDocId,
                               });
+                              CollectionReference friendFriendsCollection =
+                                  _store
+                                      .collection('users')
+                                      .doc(friendDocId)
+                                      .collection('friends');
+
+                              var myDocId = querySnapshotUser.docs.first.id;
+                              await friendFriendsCollection.add({
+                                'DocIdUser': myDocId,
+                              });
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -173,6 +183,19 @@ class _AddFriendState extends State<AddFriendPage> {
                                   ),
                                 ),
                               );
+                              //TODO: add chat room
+                              String currentUser = email ?? '';
+                              String otherUser = result['email'] ?? '';
+                              CollectionReference collectionReference =
+                                  FirebaseFirestore.instance
+                                      .collection('chatList');
+                              List<String> userArray = [
+                                currentUser,
+                                otherUser,
+                              ];
+                              collectionReference.add({
+                                'users': userArray,
+                              });
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
