@@ -77,8 +77,7 @@ class _ChatListState extends State<ChatList> {
                           var chatRoom = chatRooms[index];
                           var users = chatRoom['users'] as List<dynamic>;
 
-                          // Find the other user in the chat room
-                          //TODO: change to Username
+
                           var otherUserEmail = users.firstWhere(
                               (email) => email != loggedInUser?.email);
                           return StreamBuilder(
