@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FriendProfile extends StatelessWidget {
+  static String id = 'friend_profile';
   Column buildButtonColumn(Color color, IconData icon, String label) {
     return Column(
       mainAxisSize: MainAxisSize.min,

@@ -1,3 +1,4 @@
+import 'package:chatty/pages/friend_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -112,6 +113,11 @@ class HomeList extends StatelessWidget {
                                       .data?[index]['DocIdUser']),
                                   builder: ((context, friendInfoSnapshot) {
                                     return ListTile(
+                                      
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, FriendProfile.id);
+                                      },
                                       leading: CircleAvatar(
                                           backgroundColor: avatarColor,
                                           child: Icon(

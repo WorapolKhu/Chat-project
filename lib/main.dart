@@ -1,4 +1,5 @@
 import 'package:chatty/pages/chat.dart';
+import 'package:chatty/pages/friend_profile.dart';
 import 'package:chatty/pages/home.dart';
 import 'package:chatty/pages/login.dart';
 import 'package:chatty/pages/editProfile.dart';
@@ -26,6 +27,7 @@ class MainApp extends StatelessWidget {
         SettingPage.id: (context) => const SettingPage(),
         ChatPage.id: (context) => const ChatPage(),
         EditProfilePage.id: (context) => const EditProfilePage(),
+        FriendProfile.id: (context) => FriendProfile(),
       },
       theme: ThemeData(fontFamily: 'Poppins'),
       initialRoute: LoginPage.id,
