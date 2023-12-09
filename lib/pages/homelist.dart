@@ -49,6 +49,76 @@ class HomeList extends StatelessWidget {
       return tmp.docs;
     }
 
+    Future deleteFriendFunction(String userRef, String friendDocId) async {
+      await store
+          .collection('users')
+          .doc(userRef)
+          .collection('friends')
+          .where('DocIdUser', isEqualTo: friendDocId)
+          .get()
+          .then((snapshot) {
+        snapshot.docs.forEach((doc) {
+          doc.reference.delete();
+        });
+      });
+      var friendSnapshot = await store
+          .collection('users')
+          .doc(friendDocId)
+          .collection('friends')
+          .where('DocIdUser', isEqualTo: userRef)
+          .get();
+
+      if (friendSnapshot.docs.isNotEmpty) {
+        await store
+            .collection('users')
+            .doc(friendDocId)
+            .collection('friends')
+            .where('DocIdUser', isEqualTo: userRef)
+            .get()
+            .then((snapshot) {
+          snapshot.docs.forEach((doc) {
+            doc.reference.delete();
+          });
+        });
+      }
+    }
+
+    void showDeleteConfirmation(
+        BuildContext context,
+        AsyncSnapshot friendInfoSnapshot,
+        String userRef,
+        List<dynamic> friendData,
+        int index) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Delete Friend'),
+            content: Text(
+                'Are you sure you want to delete ${friendInfoSnapshot.data?['name']} ?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  var docId = friendData[index]['DocIdUser'] as String?;
+                  if (docId != null) {
+                    deleteFriendFunction(userRef, docId);
+                  }
+                  Navigator.of(context).pop();
+                },
+                child: Text('Delete'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
           title: Container(
@@ -112,6 +182,15 @@ class HomeList extends StatelessWidget {
                                       .data?[index]['DocIdUser']),
                                   builder: ((context, friendInfoSnapshot) {
                                     return ListTile(
+                                      onLongPress: () {
+                                        showDeleteConfirmation(
+                                          context,
+                                          friendInfoSnapshot,
+                                          userRefSnapshot.data!,
+                                          friendRefSnapshot.data!,
+                                          index,
+                                        );
+                                      },
                                       leading: CircleAvatar(
                                           backgroundColor: avatarColor,
                                           child: Icon(
