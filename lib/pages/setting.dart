@@ -13,12 +13,6 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  int _currIndex = 0;
-  final PageController _controller = PageController();
-  void _onTabTapped(int index) {
-    _controller.animateToPage(index,
-        duration: const Duration(milliseconds: 500), curve: Curves.ease);
-  }
 
   void signOut(BuildContext context) {
     _auth.signOut();
@@ -30,9 +24,9 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    var avatar_color = Color(0xffdeebff);
-    var icon_color = Colors.black;
-    var arrow_icon = Icon(Icons.arrow_forward_ios);
+    var avatarColor = const Color(0xffdeebff);
+    var iconColor = Colors.black;
+    var arrowIcon = const Icon(Icons.arrow_forward_ios);
     return Scaffold(
       appBar: AppBar(
         title: Container(
@@ -52,9 +46,9 @@ class _SettingPageState extends State<SettingPage> {
           height: 20,
         ),
         ListTile(
-          leading: CircleAvatar(radius: 30, backgroundColor: avatar_color),
+          leading: CircleAvatar(radius: 30, backgroundColor: avatarColor),
           title: Text("Profile"),
-          trailing: arrow_icon,
+          trailing: arrowIcon,
           onTap: () {
             Navigator.pushNamed(
               context,
@@ -67,80 +61,80 @@ class _SettingPageState extends State<SettingPage> {
         ),
         ListTile(
           leading: CircleAvatar(
-              backgroundColor: avatar_color,
+              backgroundColor: avatarColor,
               child: Icon(
                 Icons.key_outlined,
-                color: icon_color,
+                color: iconColor,
               )),
           title: Text("Account"),
           subtitle: Text("Privacy, security, change number"),
-          trailing: arrow_icon,
+          trailing: arrowIcon,
         ),
         ListTile(
           leading: CircleAvatar(
-              backgroundColor: avatar_color,
+              backgroundColor: avatarColor,
               child: Icon(
                 Icons.chat_bubble_outline,
-                color: icon_color,
+                color: iconColor,
               )),
           title: Text('Chat'),
           subtitle: Text('Chat history, theme, wallpapers'),
-          trailing: arrow_icon,
+          trailing: arrowIcon,
         ),
         ListTile(
           leading: CircleAvatar(
-              backgroundColor: avatar_color,
+              backgroundColor: avatarColor,
               child: Icon(
                 Icons.notification_add_outlined,
-                color: icon_color,
+                color: iconColor,
               )),
           title: Text('Notifications'),
           subtitle: Text('Messages, group and others'),
-          trailing: arrow_icon,
+          trailing: arrowIcon,
         ),
         ListTile(
           leading: CircleAvatar(
-              backgroundColor: avatar_color,
+              backgroundColor: avatarColor,
               child: Icon(
                 Icons.person_2_outlined,
-                color: icon_color,
+                color: iconColor,
               )),
           title: Text('Friends'),
           subtitle: Text('Delete friend'),
-          trailing: arrow_icon,
+          trailing: arrowIcon,
         ),
         ListTile(
           leading: CircleAvatar(
-              backgroundColor: avatar_color,
+              backgroundColor: avatarColor,
               child: Icon(
                 Icons.question_mark_outlined,
-                color: icon_color,
+                color: iconColor,
               )),
           title: Text('Help'),
           subtitle: Text('Help center, contact us, privacy policy'),
-          trailing: arrow_icon,
+          trailing: arrowIcon,
         ),
         ListTile(
           leading: CircleAvatar(
-              backgroundColor: avatar_color,
+              backgroundColor: avatarColor,
               child: Icon(
                 Icons.storage_outlined,
-                color: icon_color,
+                color: iconColor,
               )),
           title: Text('Storage and data'),
           subtitle: Text('Network usage, storage usage'),
-          trailing: arrow_icon,
+          trailing: arrowIcon,
         ),
         ListTile(
           leading: CircleAvatar(
-              backgroundColor: avatar_color,
+              backgroundColor: avatarColor,
               child: Icon(
                 Icons.logout_outlined,
-                color: icon_color,
+                color: iconColor,
               )),
           title: Text('Logout'),
           subtitle: Text('Logout from your account'),
-          trailing: arrow_icon,
+          trailing: arrowIcon,
           onTap: () {
             signOut(context);
           },
