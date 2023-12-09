@@ -28,10 +28,11 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _currIndex,
         onTap: _onTabTapped,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'page 1'),
-          BottomNavigationBarItem(icon: Icon(Icons.people), label: 'page 2'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'page 3'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'page 4'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person_add_alt_1), label: 'Add friend'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chats'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Setting'),
         ],
       ),
       body: SafeArea(

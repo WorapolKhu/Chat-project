@@ -102,7 +102,7 @@ class _ChatListState extends State<ChatList> {
                                         builder: (context, snapshot) {
                                           if (snapshot.connectionState ==
                                               ConnectionState.waiting) {
-                                            return Text('');
+                                            return Text('...');
                                           }
                                           return Text(snapshot.data ?? '');
                                         }),
