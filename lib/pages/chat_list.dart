@@ -26,8 +26,7 @@ class _ChatListState extends State<ChatList> {
   Future<String> getDisplayName(String email) async {
     var tmp =
         await _store.collection('users').where('email', isEqualTo: email).get();
-    Map<String, dynamic> otherUserInfoData =
-        tmp.docs[0].data() as Map<String, dynamic>;
+    Map<String, dynamic> otherUserInfoData = tmp.docs[0].data();
 
     return await otherUserInfoData['name'];
   }
@@ -37,9 +36,9 @@ class _ChatListState extends State<ChatList> {
     return Scaffold(
       appBar: AppBar(
         title: Container(
-          padding: EdgeInsets.only(top: 40),
+          padding: const EdgeInsets.only(top: 40),
           alignment: Alignment.center,
-          child: Text(
+          child: const Text(
             'Chat',
             style: TextStyle(fontSize: 28, fontWeight: FontWeight.w400),
           ),
@@ -102,7 +101,7 @@ class _ChatListState extends State<ChatList> {
                                         builder: (context, snapshot) {
                                           if (snapshot.connectionState ==
                                               ConnectionState.waiting) {
-                                            return Text('...');
+                                            return const Text('...');
                                           }
                                           return Text(snapshot.data ?? '');
                                         }),
@@ -121,7 +120,7 @@ class _ChatListState extends State<ChatList> {
                                       builder: (context, snapshot) {
                                         if (snapshot.connectionState ==
                                             ConnectionState.waiting) {
-                                          return Text('');
+                                          return const Text('');
                                         }
                                         return Text(snapshot.data ?? '');
                                       }),

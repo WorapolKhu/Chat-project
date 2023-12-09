@@ -192,7 +192,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                     topRight: Radius.circular(30.0),
                   ),
             elevation: 5.0,
-            color: widget.isMe ? Colors.pinkAccent : Colors.white,
+            color: widget.isMe ? Colors.blue : Colors.white,
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),

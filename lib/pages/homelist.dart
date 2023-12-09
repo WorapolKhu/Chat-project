@@ -82,6 +82,9 @@ class HomeList extends StatelessWidget {
           });
         });
       }
+      // TODO: also delete chat room
+      await store.collection('chatList').doc();
+
     }
 
     void showDeleteConfirmation(
@@ -105,10 +108,10 @@ class HomeList extends StatelessWidget {
                 child: Text('Cancel'),
               ),
               TextButton(
-                onPressed: () {
+                onPressed: () async {
                   var docId = friendData[index]['DocIdUser'] as String?;
                   if (docId != null) {
-                    deleteFriendFunction(userRef, docId);
+                    await deleteFriendFunction(userRef, docId);
                   }
                   Navigator.of(context).pop();
                 },
@@ -192,7 +195,6 @@ class HomeList extends StatelessWidget {
                                           index,
                                         );
                                       },
-                                      
                                       onTap: () {
                                         Navigator.pushNamed(
                                             context, FriendProfile.id);
