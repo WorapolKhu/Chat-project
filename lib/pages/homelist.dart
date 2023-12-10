@@ -1,9 +1,7 @@
 import 'package:chatty/pages/friend_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/material.dart';
-
 
 class HomeList extends StatefulWidget {
   const HomeList({super.key});
@@ -20,7 +18,6 @@ class _HomeListState extends State<HomeList> {
     User? loggedInUser;
     final store = FirebaseFirestore.instance;
     final auth = FirebaseAuth.instance;
-    
 
     Future<Map> getUser() async {
       loggedInUser = await auth.authStateChanges().first;
@@ -58,6 +55,7 @@ class _HomeListState extends State<HomeList> {
     }
 
     return Scaffold(
+      key: UniqueKey(),
       appBar: AppBar(
           title: Container(
             padding: EdgeInsets.only(top: 40),
@@ -131,9 +129,9 @@ class _HomeListState extends State<HomeList> {
                                           'index': index,
                                         };
                                         Navigator.pushNamed(
-                                            context, FriendProfile.id,
-                                            arguments: userData);
-                                        
+                                                context, FriendProfile.id,
+                                                arguments: userData)
+                                            .then((value) => setState(() {}));
                                       },
                                       leading: CircleAvatar(
                                           backgroundColor: avatarColor,
