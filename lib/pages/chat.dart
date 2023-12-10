@@ -59,7 +59,7 @@ class _ChatPageState extends State<ChatPage> {
                 future: getCurrentUser(),
                 builder: (BuildContext context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator(color: Colors.white);
+                    return const CircularProgressIndicator(color: Colors.white);
                   }
 
                   if (snapshot.hasError) {
@@ -85,11 +85,11 @@ class _ChatPageState extends State<ChatPage> {
                         fillColor: Colors.white,
                         filled: true,
                         contentPadding:
-                            EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                            const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
                             borderSide:
-                                BorderSide(color: Colors.white, width: 3.0))),
+                                const BorderSide(color: Colors.white, width: 3.0))),
                   ),
                 ),
                 TextButton(

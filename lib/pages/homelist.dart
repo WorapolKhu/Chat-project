@@ -13,8 +13,8 @@ class HomeList extends StatefulWidget {
 class _HomeListState extends State<HomeList> {
   @override
   Widget build(BuildContext context) {
-    var avatarColor = Color(0xffdeebff);
-    var iconColor = Colors.black;
+    Color avatarColor = const Color(0xffdeebff);
+    Color iconColor = Colors.black;
     User? loggedInUser;
     final store = FirebaseFirestore.instance;
     final auth = FirebaseAuth.instance;
@@ -58,24 +58,24 @@ class _HomeListState extends State<HomeList> {
       key: UniqueKey(),
       appBar: AppBar(
           title: Container(
-            padding: EdgeInsets.only(top: 40),
+            padding: const EdgeInsets.only(top: 40),
             alignment: Alignment.topLeft,
             child: FutureBuilder(
                 future: getUser(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Text('');
+                    return const Text('');
                   }
                   return Text(snapshot.data!['name'] ?? '',
                       style:
-                          TextStyle(fontSize: 28, fontWeight: FontWeight.w400));
+                          const TextStyle(fontSize: 28, fontWeight: FontWeight.w400));
                 }),
           ),
           toolbarHeight: 90,
           automaticallyImplyLeading: false,
-          actions: [
+          actions: const [
             Padding(
-              padding: const EdgeInsets.fromLTRB(0.0, 40.0, 30.0, 0.0),
+              padding: EdgeInsets.fromLTRB(0.0, 40.0, 30.0, 0.0),
               child: Icon(
                 Icons.person,
                 size: 40.0,
@@ -86,7 +86,7 @@ class _HomeListState extends State<HomeList> {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.fromLTRB(20.0, 10.0, 0.0, 0.0),
             child: Text('Friends'),
           ),
@@ -95,19 +95,20 @@ class _HomeListState extends State<HomeList> {
               builder: (context, userRefSnapshot) {
                 if (userRefSnapshot.connectionState ==
                     ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
                 return FutureBuilder(
                     future: getFriend(userRefSnapshot.data!),
                     builder: ((context, friendRefSnapshot) {
                       if (friendRefSnapshot.connectionState ==
                           ConnectionState.waiting) {
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       }
-                      if (friendRefSnapshot.hasError)
+                      if (friendRefSnapshot.hasError) {
                         return Text('Error = ${friendRefSnapshot.error}');
+                      }
                       if (friendRefSnapshot.data?.length > 0) {
                         return ListView.builder(
                             shrinkWrap: true,
@@ -146,7 +147,7 @@ class _HomeListState extends State<HomeList> {
                                   }));
                             });
                       } else {
-                        return Center(
+                        return const Center(
                             child: Text('You do not have any friends'));
                       }
                     }));

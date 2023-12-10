@@ -22,9 +22,9 @@ class _RegisterPageState extends State<RegisterPage> {
   String confirmPassword = '';
   String username = '';
 
-  OutlineInputBorder _inputDecoration = OutlineInputBorder(
+  final OutlineInputBorder _inputDecoration = OutlineInputBorder(
     borderRadius: BorderRadius.circular(10.0),
-    borderSide: BorderSide(color: Colors.grey),
+    borderSide: const BorderSide(color: Colors.grey),
   );
 
   @override
@@ -32,12 +32,12 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               const Align(
                 child: Text(
                   'Sign Up',
@@ -45,16 +45,16 @@ class _RegisterPageState extends State<RegisterPage> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 20),
-                  Text('Username'),
-                  SizedBox(height: 10),
-                  Container(
+                  const SizedBox(height: 20),
+                  const Text('Username'),
+                  const SizedBox(height: 10),
+                  SizedBox(
                     height: 45,
                     child: TextField(
                       onChanged: (value) {
@@ -66,17 +66,17 @@ class _RegisterPageState extends State<RegisterPage> {
                         enabledBorder: _inputDecoration,
                         focusedBorder: _inputDecoration,
                         hintText: 'Enter your username',
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                        contentPadding: EdgeInsets.symmetric(
+                        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+                        contentPadding: const EdgeInsets.symmetric(
                           vertical: 14.0,
                           horizontal: 18.0,
                         ),
                       ),
                     ),
                   ),
-                  Text('Email'),
-                  SizedBox(height: 10),
-                  Container(
+                  const Text('Email'),
+                  const SizedBox(height: 10),
+                  SizedBox(
                     height: 45,
                     child: TextField(
                       keyboardType: TextInputType.emailAddress,
@@ -89,16 +89,16 @@ class _RegisterPageState extends State<RegisterPage> {
                         enabledBorder: _inputDecoration,
                         focusedBorder: _inputDecoration,
                         hintText: 'Enter your email',
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                        contentPadding: EdgeInsets.symmetric(
+                        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+                        contentPadding: const EdgeInsets.symmetric(
                             vertical: 14.0, horizontal: 18.0),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Text('Password'),
-                  SizedBox(height: 10),
-                  Container(
+                  const SizedBox(height: 20),
+                  const Text('Password'),
+                  const SizedBox(height: 10),
+                  SizedBox(
                     height: 45,
                     child: TextField(
                       onChanged: (value) {
@@ -111,16 +111,16 @@ class _RegisterPageState extends State<RegisterPage> {
                         enabledBorder: _inputDecoration,
                         focusedBorder: _inputDecoration,
                         hintText: 'Enter your password',
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                        contentPadding: EdgeInsets.symmetric(
+                        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+                        contentPadding: const EdgeInsets.symmetric(
                             vertical: 14.0, horizontal: 18.0),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Text('Confirm Password'),
-                  SizedBox(height: 10),
-                  Container(
+                  const SizedBox(height: 20),
+                  const Text('Confirm Password'),
+                  const SizedBox(height: 10),
+                  SizedBox(
                     height: 45,
                     child: TextField(
                       onChanged: (value) {
@@ -133,21 +133,20 @@ class _RegisterPageState extends State<RegisterPage> {
                         enabledBorder: _inputDecoration,
                         focusedBorder: _inputDecoration,
                         hintText: 'Confirm your password',
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                        contentPadding: EdgeInsets.symmetric(
+                        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+                        contentPadding: const EdgeInsets.symmetric(
                             vertical: 14.0, horizontal: 18.0),
                       ),
                     ),
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               OutlinedButton(
                 onPressed: () async {
                   if (password != confirmPassword) {
-                    // TODO: show error
                   } else {
                     try {
                       await _auth.createUserWithEmailAndPassword(
@@ -160,12 +159,12 @@ class _RegisterPageState extends State<RegisterPage> {
                       });
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(
+                          content: const Text(
                             'Register success.',
                             style: TextStyle(color: Colors.white, fontSize: 15),
                           ),
                           backgroundColor: Colors.green,
-                          duration: Duration(seconds: 2),
+                          duration: const Duration(seconds: 2),
                           behavior: SnackBarBehavior.floating,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
@@ -176,12 +175,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(
+                          content: const Text(
                             'This email is already exist.',
                             style: TextStyle(color: Colors.white, fontSize: 15),
                           ),
                           backgroundColor: Colors.red,
-                          duration: Duration(seconds: 2),
+                          duration: const Duration(seconds: 2),
                           behavior: SnackBarBehavior.floating,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
@@ -191,7 +190,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     }
                   }
                 },
-                child: Text('Register'),
+                child: const Text('Register'),
               ),
               TextButton(
                   onPressed: () {

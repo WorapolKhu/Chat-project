@@ -16,9 +16,9 @@ class _LoginPageState extends State<LoginPage> {
   String email = '';
   String password = '';
 
-  OutlineInputBorder _inputDecoration = OutlineInputBorder(
+  final OutlineInputBorder _inputDecoration = OutlineInputBorder(
     borderRadius: BorderRadius.circular(10.0),
-    borderSide: BorderSide(color: Colors.grey),
+    borderSide: const BorderSide(color: Colors.grey),
   );
 
   @override
@@ -26,12 +26,12 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(25),
+          padding: const EdgeInsets.all(25),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               const Align(
                 child: Text(
                   'Login',
@@ -39,15 +39,15 @@ class _LoginPageState extends State<LoginPage> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('E-mail'),
-                  SizedBox(height: 10),
-                  Container(
+                  const Text('E-mail'),
+                  const SizedBox(height: 10),
+                  SizedBox(
                     height: 50,
                     child: TextField(
                       onChanged: (value) {
@@ -59,17 +59,17 @@ class _LoginPageState extends State<LoginPage> {
                         enabledBorder: _inputDecoration,
                         focusedBorder: _inputDecoration,
                         hintText: 'Enter your email',
-                        prefixIcon: Icon(Icons.email),
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                        contentPadding: EdgeInsets.symmetric(
+                        prefixIcon: const Icon(Icons.email),
+                        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+                        contentPadding: const EdgeInsets.symmetric(
                             vertical: 14.0, horizontal: 18.0),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Text('Password'),
-                  SizedBox(height: 10),
-                  Container(
+                  const SizedBox(height: 20),
+                  const Text('Password'),
+                  const SizedBox(height: 10),
+                  SizedBox(
                     height: 50,
                     child: TextField(
                       onChanged: (value) {
@@ -82,16 +82,16 @@ class _LoginPageState extends State<LoginPage> {
                         enabledBorder: _inputDecoration,
                         focusedBorder: _inputDecoration,
                         hintText: 'Enter your password',
-                        prefixIcon: Icon(Icons.lock),
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                        contentPadding: EdgeInsets.symmetric(
+                        prefixIcon: const Icon(Icons.lock),
+                        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+                        contentPadding: const EdgeInsets.symmetric(
                             vertical: 14.0, horizontal: 18.0),
                       ),
                     ),
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 100,
               ),
               ElevatedButton(
@@ -108,12 +108,12 @@ class _LoginPageState extends State<LoginPage> {
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(
+                        content: const Text(
                           'Email or password is incorrect.',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                         backgroundColor: Colors.red,
-                        duration: Duration(seconds: 2),
+                        duration: const Duration(seconds: 2),
                         behavior: SnackBarBehavior.floating,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
@@ -122,13 +122,13 @@ class _LoginPageState extends State<LoginPage> {
                     );
                   }
                 },
-                child: Text('Login'),
+                child: const Text('Login'),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.pushNamed(context, RegisterPage.id);
                 },
-                child: Text("Sign up"),
+                child: const Text("Sign up"),
               ),
             ],
           ),

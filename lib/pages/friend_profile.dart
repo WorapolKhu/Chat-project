@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FriendProfile extends StatefulWidget {
   static String id = 'friend_profile';
 
+  const FriendProfile({super.key});
+
   @override
   State<FriendProfile> createState() => _FriendProfileState();
 }
@@ -33,9 +35,9 @@ class _FriendProfileState extends State<FriendProfile> {
         .where('DocIdUser', isEqualTo: friendDocId)
         .get()
         .then((snapshot) {
-      snapshot.docs.forEach((doc) {
+      for (var doc in snapshot.docs) {
         doc.reference.delete();
-      });
+      }
     });
     var friendSnapshot = await store
         .collection('users')
@@ -52,9 +54,9 @@ class _FriendProfileState extends State<FriendProfile> {
           .where('DocIdUser', isEqualTo: userRef)
           .get()
           .then((snapshot) {
-        snapshot.docs.forEach((doc) {
+        for (var doc in snapshot.docs) {
           doc.reference.delete();
-        });
+        }
       });
     }
     await getUser();
@@ -83,7 +85,7 @@ class _FriendProfileState extends State<FriendProfile> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Delete Friend'),
+          title: const Text('Delete Friend'),
           content: Text(
               'Are you sure you want to delete ${friendInfoSnapshot.data?['name']} ?'),
           actions: <Widget>[
@@ -91,7 +93,7 @@ class _FriendProfileState extends State<FriendProfile> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () async {
@@ -104,36 +106,11 @@ class _FriendProfileState extends State<FriendProfile> {
 
                 Navigator.of(context).pop();
               },
-              child: Text('Delete'),
+              child: const Text('Delete'),
             ),
           ],
         );
       },
-    );
-  }
-
-  Column buildButtonColumn(Color color, IconData icon, String label) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          icon,
-          color: Colors.black,
-          size: 50,
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 8),
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: Colors.black,
-            ),
-          ),
-        ),
-      ],
     );
   }
 
@@ -149,18 +126,18 @@ class _FriendProfileState extends State<FriendProfile> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircleAvatar(
+          const CircleAvatar(
             maxRadius: 100,
             backgroundColor: Colors.transparent, // Set background color
             child: Icon(Icons.person_outline,
                 color: Colors.black26, size: 100), // Icon and its color
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             '${receivedData['friendInfoSnapshot'].data?['name']}',
-            style: TextStyle(fontSize: 24),
+            style: const TextStyle(fontSize: 24),
           ),
-          SizedBox(height: 60),
+          const SizedBox(height: 60),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -176,9 +153,11 @@ class _FriendProfileState extends State<FriendProfile> {
                         receivedData['index'],
                       );
                     },
-                    icon: Icon(Icons.person_remove_outlined),
+                    icon: const Icon(
+                      Icons.person_remove_outlined,
+                    ),
                   ),
-                  Text('Delete Friend')
+                  const Text('Delete Friend')
                 ],
               )
             ],

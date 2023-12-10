@@ -18,7 +18,7 @@ class _SettingPageState extends State<SettingPage> {
     _auth.signOut();
     Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => LoginPage()),
+        MaterialPageRoute(builder: (context) => const LoginPage()),
         ModalRoute.withName('/'));
   }
 
@@ -30,9 +30,9 @@ class _SettingPageState extends State<SettingPage> {
     return Scaffold(
       appBar: AppBar(
         title: Container(
-          padding: EdgeInsets.only(top: 40),
+          padding: const EdgeInsets.only(top: 40),
           alignment: Alignment.center,
-          child: Text(
+          child: const Text(
             'Setting',
             style: TextStyle(fontSize: 28, fontWeight: FontWeight.w400),
           ),
@@ -42,12 +42,12 @@ class _SettingPageState extends State<SettingPage> {
       ),
       body: SafeArea(
           child: ListView(children: [
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         ListTile(
           leading: CircleAvatar(radius: 30, backgroundColor: avatarColor),
-          title: Text("Profile"),
+          title: const Text("Profile"),
           trailing: arrowIcon,
           onTap: () {
             Navigator.pushNamed(
@@ -56,7 +56,7 @@ class _SettingPageState extends State<SettingPage> {
             );
           },
         ),
-        Divider(
+        const Divider(
           thickness: 1.5,
         ),
         ListTile(
@@ -66,8 +66,8 @@ class _SettingPageState extends State<SettingPage> {
                 Icons.logout_outlined,
                 color: iconColor,
               )),
-          title: Text('Logout'),
-          subtitle: Text('Logout from your account'),
+          title: const Text('Logout'),
+          subtitle: const Text('Logout from your account'),
           trailing: arrowIcon,
           onTap: () {
             signOut(context);

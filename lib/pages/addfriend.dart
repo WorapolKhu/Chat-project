@@ -58,9 +58,9 @@ class _AddFriendState extends State<AddFriendPage> {
     return Scaffold(
       appBar: AppBar(
         title: Container(
-          padding: EdgeInsets.only(top: 40),
+          padding: const EdgeInsets.only(top: 40),
           alignment: Alignment.center,
-          child: Text(
+          child: const Text(
             'Add Friend',
             style: TextStyle(fontSize: 28, fontWeight: FontWeight.w400),
           ),
@@ -76,7 +76,7 @@ class _AddFriendState extends State<AddFriendPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 25, left: 16, right: 16),
+                  padding: const EdgeInsets.only(top: 25, left: 16, right: 16),
                   child: SizedBox(
                     height: 40,
                     child: TextField(
@@ -87,7 +87,7 @@ class _AddFriendState extends State<AddFriendPage> {
                             color: Colors.grey[600], size: 20),
                         filled: true,
                         fillColor: Colors.grey[200],
-                        contentPadding: EdgeInsets.all(2),
+                        contentPadding: const EdgeInsets.all(2),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide: BorderSide(color: Colors.grey.shade100),
@@ -116,11 +116,11 @@ class _AddFriendState extends State<AddFriendPage> {
                 const SizedBox(height: 20),
                 for (Map<String, String> result in filteredResults)
                   ListTile(
-                      leading: CircleAvatar(),
+                      leading: const CircleAvatar(),
                       title: Text(result["name"]!),
                       subtitle: Text(result["email"]!),
                       trailing: IconButton(
-                        icon: Icon(Icons.person_add, size: 28),
+                        icon: const Icon(Icons.person_add, size: 28),
                         onPressed: () async {
                           String? email =
                               FirebaseAuth.instance.currentUser?.email;
@@ -168,7 +168,7 @@ class _AddFriendState extends State<AddFriendPage> {
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text(
+                                  content: const Text(
                                     'Friend added successfully!',
                                     style: TextStyle(
                                       color: Colors.white,
@@ -176,7 +176,7 @@ class _AddFriendState extends State<AddFriendPage> {
                                     ),
                                   ),
                                   backgroundColor: Colors.green,
-                                  duration: Duration(seconds: 2),
+                                  duration: const Duration(seconds: 2),
                                   behavior: SnackBarBehavior.floating,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
@@ -199,13 +199,13 @@ class _AddFriendState extends State<AddFriendPage> {
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text(
+                                  content: const Text(
                                     'User is already your friend!',
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 15),
                                   ),
                                   backgroundColor: Colors.red,
-                                  duration: Duration(seconds: 2),
+                                  duration: const Duration(seconds: 2),
                                   behavior: SnackBarBehavior.floating,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),

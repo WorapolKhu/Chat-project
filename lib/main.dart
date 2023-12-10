@@ -27,7 +27,7 @@ class MainApp extends StatelessWidget {
         SettingPage.id: (context) => const SettingPage(),
         ChatPage.id: (context) => const ChatPage(),
         EditProfilePage.id: (context) => const EditProfilePage(),
-        FriendProfile.id: (context) => FriendProfile(),
+        FriendProfile.id: (context) => const FriendProfile(),
       },
       theme: ThemeData(fontFamily: 'Poppins'),
       initialRoute: LoginPage.id,
