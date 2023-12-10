@@ -57,7 +57,6 @@ class _FriendProfileState extends State<FriendProfile> {
         });
       });
     }
-    // TODO: also delete chat room
     await getUser();
     await store
         .collection('chatList')
