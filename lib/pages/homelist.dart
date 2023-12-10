@@ -4,9 +4,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
 
-class HomeList extends StatelessWidget {
+
+class HomeList extends StatefulWidget {
   const HomeList({super.key});
 
+  @override
+  State<HomeList> createState() => _HomeListState();
+}
+
+class _HomeListState extends State<HomeList> {
   @override
   Widget build(BuildContext context) {
     var avatarColor = Color(0xffdeebff);
@@ -14,6 +20,7 @@ class HomeList extends StatelessWidget {
     User? loggedInUser;
     final store = FirebaseFirestore.instance;
     final auth = FirebaseAuth.instance;
+    
 
     Future<Map> getUser() async {
       loggedInUser = await auth.authStateChanges().first;
@@ -48,79 +55,6 @@ class HomeList extends StatelessWidget {
           .get();
 
       return tmp.docs;
-    }
-
-    Future deleteFriendFunction(String userRef, String friendDocId) async {
-      await store
-          .collection('users')
-          .doc(userRef)
-          .collection('friends')
-          .where('DocIdUser', isEqualTo: friendDocId)
-          .get()
-          .then((snapshot) {
-        snapshot.docs.forEach((doc) {
-          doc.reference.delete();
-        });
-      });
-      var friendSnapshot = await store
-          .collection('users')
-          .doc(friendDocId)
-          .collection('friends')
-          .where('DocIdUser', isEqualTo: userRef)
-          .get();
-
-      if (friendSnapshot.docs.isNotEmpty) {
-        await store
-            .collection('users')
-            .doc(friendDocId)
-            .collection('friends')
-            .where('DocIdUser', isEqualTo: userRef)
-            .get()
-            .then((snapshot) {
-          snapshot.docs.forEach((doc) {
-            doc.reference.delete();
-          });
-        });
-      }
-      // TODO: also delete chat room
-      await store.collection('chatList').doc();
-
-    }
-
-    void showDeleteConfirmation(
-        BuildContext context,
-        AsyncSnapshot friendInfoSnapshot,
-        String userRef,
-        List<dynamic> friendData,
-        int index) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Delete Friend'),
-            content: Text(
-                'Are you sure you want to delete ${friendInfoSnapshot.data?['name']} ?'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () async {
-                  var docId = friendData[index]['DocIdUser'] as String?;
-                  if (docId != null) {
-                    await deleteFriendFunction(userRef, docId);
-                  }
-                  Navigator.of(context).pop();
-                },
-                child: Text('Delete'),
-              ),
-            ],
-          );
-        },
-      );
     }
 
     return Scaffold(
@@ -186,18 +120,20 @@ class HomeList extends StatelessWidget {
                                       .data?[index]['DocIdUser']),
                                   builder: ((context, friendInfoSnapshot) {
                                     return ListTile(
-                                      onLongPress: () {
-                                        showDeleteConfirmation(
-                                          context,
-                                          friendInfoSnapshot,
-                                          userRefSnapshot.data!,
-                                          friendRefSnapshot.data!,
-                                          index,
-                                        );
-                                      },
                                       onTap: () {
+                                        Map<String, dynamic> userData = {
+                                          'friendInfoSnapshot':
+                                              friendInfoSnapshot,
+                                          'userRefSnapshot':
+                                              userRefSnapshot.data!,
+                                          'friendRefSnapshot':
+                                              friendRefSnapshot.data!,
+                                          'index': index,
+                                        };
                                         Navigator.pushNamed(
-                                            context, FriendProfile.id);
+                                            context, FriendProfile.id,
+                                            arguments: userData);
+                                        
                                       },
                                       leading: CircleAvatar(
                                           backgroundColor: avatarColor,
