@@ -158,7 +158,20 @@ class _RegisterPageState extends State<RegisterPage> {
                         'name': username,
                         'email': email,
                       });
-                      print('success to register');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Register success.',
+                            style: TextStyle(color: Colors.white, fontSize: 15),
+                          ),
+                          backgroundColor: Colors.green,
+                          duration: Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                      );
                       Navigator.pushNamed(context, LoginPage.id);
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(

@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                       password: password,
                     );
                     if (context.mounted) {
-                      print('Login success, changing page');
+                      
                       Navigator.pushNamed(context, HomePage.id);
                     }
                   } catch (e) {
