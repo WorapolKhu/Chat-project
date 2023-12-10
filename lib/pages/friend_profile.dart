@@ -152,7 +152,9 @@ class _FriendProfileState extends State<FriendProfile> {
         children: [
           CircleAvatar(
             maxRadius: 100,
-            child: Image(image: AssetImage("assets/profilePic_symbol.png")),
+            backgroundColor: Colors.transparent, // Set background color
+            child: Icon(Icons.person_outline,
+                color: Colors.black26, size: 100), // Icon and its color
           ),
           SizedBox(height: 10),
           Text(
