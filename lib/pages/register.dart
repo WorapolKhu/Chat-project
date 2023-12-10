@@ -161,8 +161,20 @@ class _RegisterPageState extends State<RegisterPage> {
                       print('success to register');
                       Navigator.pushNamed(context, LoginPage.id);
                     } catch (e) {
-                      //TODO: show error messages
-                      print(e);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'This email is already exist.',
+                            style: TextStyle(color: Colors.white, fontSize: 15),
+                          ),
+                          backgroundColor: Colors.red,
+                          duration: Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                      );
                     }
                   }
                 },

@@ -21,8 +21,6 @@ class _LoginPageState extends State<LoginPage> {
     borderSide: BorderSide(color: Colors.grey),
   );
 
-  // ปรับความสูงของ TextField ตามที่คุณต้องการ
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,17 +106,23 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.pushNamed(context, HomePage.id);
                     }
                   } catch (e) {
-                    // TODO: Show error
-                    print(e);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Email or password is incorrect.',
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                        backgroundColor: Colors.red,
+                        duration: Duration(seconds: 2),
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                    );
                   }
                 },
                 child: Text('Login'),
-              ),
-              TextButton(
-                onPressed: () {
-                  // TODO: Implement forgot password functionality
-                },
-                child: Text('Forgot password'),
               ),
               TextButton(
                 onPressed: () {
