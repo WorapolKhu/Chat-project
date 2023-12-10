@@ -80,6 +80,16 @@ class _ChatPageState extends State<ChatPage> {
                     onChanged: (value) {
                       textMessage = value;
                     },
+                    decoration: InputDecoration(
+                        hintText: 'Aa',
+                        fillColor: Colors.white,
+                        filled: true,
+                        contentPadding:
+                            EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 3.0))),
                   ),
                 ),
                 TextButton(
