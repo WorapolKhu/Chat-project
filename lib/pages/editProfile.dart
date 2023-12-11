@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
+// A page for editing user profile information. 
+// This page allows the user to edit their profile information.
+// It is a stateful widget that extends [StatefulWidget] and provides a [createState] method to create the corresponding state object.
 class EditProfilePage extends StatefulWidget {
   static String id = 'edit_profile';
   const EditProfilePage({super.key});
@@ -10,20 +14,28 @@ class EditProfilePage extends StatefulWidget {
   _EditProfilePageState createState() => _EditProfilePageState();
 }
 
+// The state class for the EditProfilePage widget.
+// This class manages the state of the EditProfilePage widget, including the current user, text editing controllers for the username and email fields, and methods for retrieving the current user's data and updating the profile.
+// if updates are successful show a snackbar with a success message, otherwise show a snackbar with a failure message.
 class _EditProfilePageState extends State<EditProfilePage> {
+  // Firebase authentication and Firestore instances
   final _auth = FirebaseAuth.instance;
   final _store = FirebaseFirestore.instance;
+  // The current user
   late User loggedInUser;
 
+  // Text editing controllers for the username and email fields.
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
+  // Initializes the state of the widget.
   @override
   void initState() {
     super.initState();
     getCurrentUser();
   }
 
+  // Retrieves the current user's data from Firestore based on their email address and updates the UI with that information.
   void getCurrentUser() async {
     final user = _auth.currentUser;
     if (user != null) {
@@ -40,13 +52,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
         setState(() {
           loggedInUser = user;
-          _usernameController.text = userData['name'] ?? 'NA';
-          _emailController.text = userData['email'] ?? 'NA';
+          _usernameController.text = userData['name'] ?? '-';
+          _emailController.text = userData['email'] ?? '-';
         });
       }
     }
   }
 
+  // Updates the user's profile information in Firebase authentication and Firestore.
+  // Displays a snackbar with a success or failure message.
   void updateProfile() async {
     try {
       // Update display name in authentication
@@ -67,6 +81,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         }
       });
 
+      // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Profile updated successfully!'),
@@ -75,6 +90,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       );
     } catch (e) {
       print(e.toString());
+      // Show failure message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Failed to update profile. Please try again.'),
@@ -84,6 +100,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
   }
 
+  // Builds the UI for the EditProfilePage widget.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
