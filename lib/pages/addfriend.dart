@@ -14,6 +14,13 @@ class _AddFriendState extends State<AddFriendPage> {
   String enteredText = '';
   List<Map<String, String>> filteredResults = [];
 
+//This function searches for users by their email address.
+  // Retrieve the current user using FirebaseAuth
+  // if there's current user and matches the current user's email
+  // Query Firestore for documents in the 'users' collection matching the provided email
+  // Map the retrieved documents to a list of maps containing 'name' and 'email' fields
+  // if there's no current user and the provided email not matches the current user's email.
+  //Returns an empty list
   Future<List<Map<String, String>>> searchUsersByEmail(String email) async {
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null && email.toLowerCase() != currentUser.email) {
@@ -43,6 +50,7 @@ class _AddFriendState extends State<AddFriendPage> {
     getCurrentUser();
   }
 
+//Updates the logged-in user when changes occur in the authentication state.
   Future<void> getCurrentUser() async {
     _auth.authStateChanges().listen((User? user) {
       if (user != null) {
@@ -121,6 +129,15 @@ class _AddFriendState extends State<AddFriendPage> {
                       subtitle: Text(result["email"]!),
                       trailing: IconButton(
                         icon: const Icon(Icons.person_add, size: 28),
+                        //When you click icon add-friend
+                        // Fetches the current user's email using FirebaseAuth
+                        // Retrieves user data from Firestore based on email
+                        // Retrieves data of another user (result["email"]) from Firestore
+                        // Checks if the queried user exists
+                        // Creates a reference to the 'friends' collection for the current user
+                        // Checks if the queried user is not already a friend
+                        // Creates a reference to the 'friends' collection
+                        // Adds the current user as a friends
                         onPressed: () async {
                           String? email =
                               FirebaseAuth.instance.currentUser?.email;
