@@ -23,6 +23,7 @@ class _ChatListState extends State<ChatList> {
       }
     });
   }
+
   // get user name of the given email
   // return string of name
   Future<String> getDisplayName(String email) async {

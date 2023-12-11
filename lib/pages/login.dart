@@ -60,7 +60,8 @@ class _LoginPageState extends State<LoginPage> {
                         focusedBorder: _inputDecoration,
                         hintText: 'Enter your email',
                         prefixIcon: const Icon(Icons.email),
-                        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+                        hintStyle:
+                            const TextStyle(color: Colors.grey, fontSize: 14),
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 14.0, horizontal: 18.0),
                       ),
@@ -83,7 +84,8 @@ class _LoginPageState extends State<LoginPage> {
                         focusedBorder: _inputDecoration,
                         hintText: 'Enter your password',
                         prefixIcon: const Icon(Icons.lock),
-                        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+                        hintStyle:
+                            const TextStyle(color: Colors.grey, fontSize: 14),
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 14.0, horizontal: 18.0),
                       ),
@@ -105,7 +107,6 @@ class _LoginPageState extends State<LoginPage> {
                       password: password,
                     );
                     if (context.mounted) {
-                      
                       Navigator.pushNamed(context, HomePage.id);
                     }
                   } catch (e) {

@@ -88,8 +88,8 @@ class _ChatPageState extends State<ChatPage> {
                             const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
-                            borderSide:
-                                const BorderSide(color: Colors.white, width: 3.0))),
+                            borderSide: const BorderSide(
+                                color: Colors.white, width: 3.0))),
                   ),
                 ),
                 TextButton(

@@ -66,7 +66,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         enabledBorder: _inputDecoration,
                         focusedBorder: _inputDecoration,
                         hintText: 'Enter your username',
-                        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+                        hintStyle:
+                            const TextStyle(color: Colors.grey, fontSize: 14),
                         contentPadding: const EdgeInsets.symmetric(
                           vertical: 14.0,
                           horizontal: 18.0,
@@ -89,7 +90,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         enabledBorder: _inputDecoration,
                         focusedBorder: _inputDecoration,
                         hintText: 'Enter your email',
-                        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+                        hintStyle:
+                            const TextStyle(color: Colors.grey, fontSize: 14),
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 14.0, horizontal: 18.0),
                       ),
@@ -111,7 +113,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         enabledBorder: _inputDecoration,
                         focusedBorder: _inputDecoration,
                         hintText: 'Enter your password',
-                        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+                        hintStyle:
+                            const TextStyle(color: Colors.grey, fontSize: 14),
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 14.0, horizontal: 18.0),
                       ),
@@ -133,7 +136,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         enabledBorder: _inputDecoration,
                         focusedBorder: _inputDecoration,
                         hintText: 'Confirm your password',
-                        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+                        hintStyle:
+                            const TextStyle(color: Colors.grey, fontSize: 14),
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 14.0, horizontal: 18.0),
                       ),
@@ -151,19 +155,19 @@ class _RegisterPageState extends State<RegisterPage> {
                   // if there is an error show error
                   if (password != confirmPassword) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text(
-                            'The password is not matching.',
-                            style: TextStyle(color: Colors.white, fontSize: 15),
-                          ),
-                          backgroundColor: Colors.red,
-                          duration: const Duration(seconds: 2),
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                      SnackBar(
+                        content: const Text(
+                          'The password is not matching.',
+                          style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
-                      );
+                        backgroundColor: Colors.red,
+                        duration: const Duration(seconds: 2),
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                    );
                   } else {
                     try {
                       await _auth.createUserWithEmailAndPassword(
