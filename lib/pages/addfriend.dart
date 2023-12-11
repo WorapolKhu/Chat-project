@@ -200,7 +200,6 @@ class _AddFriendState extends State<AddFriendPage> {
                                   ),
                                 ),
                               );
-                              //TODO: add chat room
                               String currentUser = email ?? '';
                               String otherUser = result['email'] ?? '';
                               CollectionReference collectionReference =

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-// A page for editing user profile information. 
+// A page for editing user profile information.
 // This page allows the user to edit their profile information.
 // It is a stateful widget that extends [StatefulWidget] and provides a [createState] method to create the corresponding state object.
 class EditProfilePage extends StatefulWidget {
@@ -11,13 +10,13 @@ class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
 
   @override
-  _EditProfilePageState createState() => _EditProfilePageState();
+  EditProfilePageState createState() => EditProfilePageState();
 }
 
 // The state class for the EditProfilePage widget.
 // This class manages the state of the EditProfilePage widget, including the current user, text editing controllers for the username and email fields, and methods for retrieving the current user's data and updating the profile.
 // if updates are successful show a snackbar with a success message, otherwise show a snackbar with a failure message.
-class _EditProfilePageState extends State<EditProfilePage> {
+class EditProfilePageState extends State<EditProfilePage> {
   // Firebase authentication and Firestore instances
   final _auth = FirebaseAuth.instance;
   final _store = FirebaseFirestore.instance;
@@ -95,7 +94,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ),
       );
     } catch (e) {
-      print(e.toString());
       // Show failure message if updates are not successful 2 seconds
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

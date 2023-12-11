@@ -1,7 +1,7 @@
 import 'package:chatty/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:chatty/pages/editProfile.dart';
+import 'package:chatty/pages/edit_profile.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});

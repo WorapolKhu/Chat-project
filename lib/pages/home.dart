@@ -1,4 +1,4 @@
-import 'package:chatty/pages/homelist.dart';
+import 'package:chatty/pages/home_list.dart';
 import 'package:chatty/pages/setting.dart';
 import 'package:chatty/pages/chat_list.dart';
 import 'package:flutter/material.dart';
