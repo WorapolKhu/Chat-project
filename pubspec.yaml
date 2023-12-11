@@ -27,5 +27,3 @@ flutter:
       - asset: fonts/Poppins-Bold.ttf
       - asset: fonts/Poppins-Italic.ttf
       - asset: fonts/Poppins-Light.ttf
-  assets:
-    - lib/assets/profilePic_symbol.png
