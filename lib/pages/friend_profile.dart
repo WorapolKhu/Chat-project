@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
 class FriendProfile extends StatefulWidget {
   static String id = 'friend_profile';
 
@@ -16,6 +17,8 @@ class _FriendProfileState extends State<FriendProfile> {
 
   final auth = FirebaseAuth.instance;
   User? loggedInUser;
+
+  // Retrieves the current user's data from Firestore based on their email address.
   Future<Map> getUser() async {
     loggedInUser = await auth.authStateChanges().first;
     var tmp = await store
@@ -26,6 +29,10 @@ class _FriendProfileState extends State<FriendProfile> {
     return userInfo;
   }
 
+// Function to delete a friend relationship between users.
+  // Delete friend relationship from userRef's friends collection
+  // Delete friend relationship from friendDocId's friends collection
+  // Update user data and remove friend from chatList
   Future deleteFriendFunction(
       String userRef, String friendDocId, String friendEmail) async {
     await store
@@ -75,6 +82,8 @@ class _FriendProfileState extends State<FriendProfile> {
     });
   }
 
+// Function to display a confirmation for deleting a friend
+// Calls the deleteFriendFunction() to remove the friend
   void showDeleteConfirmation(
       BuildContext context,
       AsyncSnapshot friendInfoSnapshot,
