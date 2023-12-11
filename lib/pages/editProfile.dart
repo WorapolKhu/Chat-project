@@ -36,6 +36,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   // Retrieves the current user's data from Firestore based on their email address and updates the UI with that information.
+  // If the user's email is not found, do nothing.
   void getCurrentUser() async {
     final user = _auth.currentUser;
     if (user != null) {
@@ -45,8 +46,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
           .where('email', isEqualTo: user.email)
           .get();
 
+      // If the user's email is found, update the UI with the user's data
+      // Otherwise, do nothing
       if (userSnapshot.docs.isNotEmpty) {
-        // Assuming email is unique, use the first document
         Map<String, dynamic> userData =
             userSnapshot.docs.first.data() as Map<String, dynamic>;
 
@@ -63,10 +65,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
   // Displays a snackbar with a success or failure message.
   void updateProfile() async {
     try {
-      // Update display name in authentication
+      // Update the user's display name in Firebase authentication
       await loggedInUser.updateDisplayName(_usernameController.text);
 
       // Update user information in Firestore based on email
+      // Get the document ID of the first document with the user's email
+      // Update the document with the new name and email
+      // If the user's email is not found, do nothing
       await _store
           .collection('users')
           .where('email', isEqualTo: loggedInUser.email)
@@ -81,7 +86,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
         }
       });
 
-      // Show success message
+      // Show success message if updates are successful 2 seconds
+      // Then show the updated profile information
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Profile updated successfully!'),
@@ -90,7 +96,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       );
     } catch (e) {
       print(e.toString());
-      // Show failure message
+      // Show failure message if updates are not successful 2 seconds
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Failed to update profile. Please try again.'),
@@ -159,6 +165,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                // Cancel button - discard changes
+                // Reset the text fields to the current user's data
                 OutlinedButton(
                   onPressed: () {
                     // reset the text fields to the current user's data
@@ -172,6 +180,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   },
                   child: const Text('Cancel'),
                 ),
+                // Save button - update profile
+                // Update the user's profile information in Firebase authentication and Firestore
+                // Display a snackbar with a success or failure message
+                // If updates are successful show a snackbar with a success message, otherwise show a snackbar with a failure message.
+                // Then show the updated profile information
                 ElevatedButton(
                   onPressed: updateProfile,
                   child: const Text('Save'),
