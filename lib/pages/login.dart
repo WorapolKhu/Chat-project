@@ -95,6 +95,9 @@ class _LoginPageState extends State<LoginPage> {
                 height: 100,
               ),
               ElevatedButton(
+                // try to login wtih email and password
+                // if there is an error show error message to user
+                // else change page to home page
                 onPressed: () async {
                   try {
                     await _auth.signInWithEmailAndPassword(

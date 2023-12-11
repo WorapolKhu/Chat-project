@@ -13,7 +13,7 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  // sign user out and navigate back to login page
   void signOut(BuildContext context) {
     _auth.signOut();
     Navigator.pushAndRemoveUntil(

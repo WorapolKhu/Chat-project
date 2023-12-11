@@ -15,6 +15,7 @@ class _ChatListState extends State<ChatList> {
   final _auth = FirebaseAuth.instance;
   User? loggedInUser;
 
+  // get current user store in loggedInUser
   Future<void> getCurrentUser() async {
     _auth.authStateChanges().listen((User? user) {
       if (user != null) {
@@ -22,7 +23,8 @@ class _ChatListState extends State<ChatList> {
       }
     });
   }
-
+  // get user name of the given email
+  // return string of name
   Future<String> getDisplayName(String email) async {
     var tmp =
         await _store.collection('users').where('email', isEqualTo: email).get();

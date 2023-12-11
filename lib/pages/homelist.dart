@@ -19,6 +19,9 @@ class _HomeListState extends State<HomeList> {
     final store = FirebaseFirestore.instance;
     final auth = FirebaseAuth.instance;
 
+    // get current user and store it in loggedInUser
+    // then query firebase firestore
+    // return Map of userInfo from the query
     Future<Map> getUser() async {
       loggedInUser = await auth.authStateChanges().first;
       var tmp = await store
@@ -29,6 +32,8 @@ class _HomeListState extends State<HomeList> {
       return userInfo;
     }
 
+    // get document reference from firebase firestore
+    // return refernce id as string on first match of the current user's email
     Future<String> getRefId() async {
       loggedInUser = await auth.authStateChanges().first;
       var userInfo = await store
@@ -38,13 +43,17 @@ class _HomeListState extends State<HomeList> {
       return userInfo.docs.first.id;
     }
 
+    // get user from given reference id
+    // return Map of user info
     Future<Map<String, dynamic>?> getUserFromRef(String ref) async {
       var tmp = await store.collection('users').doc(ref).get();
       Map<String, dynamic>? userInfo = tmp.data();
       return userInfo;
     }
 
-    Future getFriend(String userRef) async {
+    // get friends of given reference id
+    // return all documents in collection friends of the given reference id as a list
+    Future<List> getFriend(String userRef) async {
       var tmp = await store
           .collection('users')
           .doc(userRef)
@@ -67,8 +76,8 @@ class _HomeListState extends State<HomeList> {
                     return const Text('');
                   }
                   return Text(snapshot.data!['name'] ?? '',
-                      style:
-                          const TextStyle(fontSize: 28, fontWeight: FontWeight.w400));
+                      style: const TextStyle(
+                          fontSize: 28, fontWeight: FontWeight.w400));
                 }),
           ),
           toolbarHeight: 90,
@@ -109,7 +118,7 @@ class _HomeListState extends State<HomeList> {
                       if (friendRefSnapshot.hasError) {
                         return Text('Error = ${friendRefSnapshot.error}');
                       }
-                      if (friendRefSnapshot.data?.length > 0) {
+                      if (friendRefSnapshot.data!.isNotEmpty) {
                         return ListView.builder(
                             shrinkWrap: true,
                             itemCount: friendRefSnapshot.data?.length,

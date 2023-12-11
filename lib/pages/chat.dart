@@ -20,7 +20,7 @@ class _ChatPageState extends State<ChatPage> {
   final _auth = FirebaseAuth.instance;
   final fieldController = TextEditingController();
   late String textMessage;
-
+  // get current user and other user name that is in the chat room
   Future<void> getCurrentUser() async {
     loggedInUser = await _auth.authStateChanges().first;
     await _store.collection('chatList').doc(refId).get().then((value) {

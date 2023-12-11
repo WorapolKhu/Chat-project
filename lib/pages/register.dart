@@ -146,7 +146,24 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               OutlinedButton(
                 onPressed: () async {
+                  // if password != confirm password show error
+                  // else try to create user with email and password
+                  // if there is an error show error
                   if (password != confirmPassword) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text(
+                            'The password is not matching.',
+                            style: TextStyle(color: Colors.white, fontSize: 15),
+                          ),
+                          backgroundColor: Colors.red,
+                          duration: const Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                      );
                   } else {
                     try {
                       await _auth.createUserWithEmailAndPassword(
